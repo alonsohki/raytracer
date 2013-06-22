@@ -19,6 +19,9 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\pixbuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ply_reader.h">
@@ -36,9 +39,15 @@
     <ClInclude Include="src\profiler.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\pixbuffer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\sample_render.tga">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="output\result.tga">
       <Filter>Resources</Filter>
     </None>
   </ItemGroup>

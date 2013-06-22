@@ -12,10 +12,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\pixbuffer.cpp" />
     <ClCompile Include="src\ply_reader.cpp" />
     <ClCompile Include="src\tga_saver.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\pixbuffer.h" />
     <ClInclude Include="src\ply_reader.h" />
     <ClInclude Include="src\profiler.h" />
     <ClInclude Include="src\tga_saver.h" />
@@ -26,6 +28,7 @@
     <Text Include="src\readme.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="output\result.tga" />
     <None Include="src\sample_render.tga" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
