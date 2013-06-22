@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ply_reader.h" />
+    <ClInclude Include="src\profiler.h" />
     <ClInclude Include="src\tga_saver.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\vector.h" />

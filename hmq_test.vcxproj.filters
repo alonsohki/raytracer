@@ -33,6 +33,9 @@
     <ClInclude Include="src\utils.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\profiler.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\sample_render.tga">
