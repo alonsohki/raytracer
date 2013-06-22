@@ -20,12 +20,12 @@ public:
 
     unsigned int    getPixel    ( unsigned int x, unsigned int y )
     {
-        return *reinterpret_cast<unsigned int *>(&mBuffer[(y * mWidth + x) * mDepth]);
+        return *reinterpret_cast<unsigned int *>(&mBuffer[(y * mWidth + x) * mDepth / 8]);
     }
 
     void            setPixel    ( unsigned int x, unsigned int y, unsigned int value )
     {
-        memcpy ( &mBuffer[(y * mWidth + x) * mDepth], reinterpret_cast<unsigned char *>(&value), mDepth / 8 );
+        memcpy ( &mBuffer[(y * mWidth + x) * mDepth / 8], reinterpret_cast<unsigned char *>(&value), mDepth / 8 );
     }
 
 private:

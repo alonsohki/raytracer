@@ -23,16 +23,21 @@ int main(int argc, const char* argv[], const char* envp[])
 	PROFILE_END();
 
 
-    // Create a pixbuf as render targe
+    // Create a pixbuf as render target
     PROFILE_START("Creating render target ... ");
     PixBuffer target ( 800, 600, 24 );
-    target.clear ( 0x002244 );
+    target.clear ( 0x000000 );
     PROFILE_END();
 
 
     // Save the result
     PROFILE_START("Saving the result ... ");
-    Write_Tga("output/result.tga", target.getWidth(), target.getHeight(), target.getBuffer());
+    // Flip the image vertically
+    PixBuffer result ( target.getWidth(), target.getHeight(), target.getDepth() );
+    for ( unsigned int j = 0; j < target.getHeight(); ++j )
+        for ( unsigned int i = 0; i < target.getWidth(); ++i )
+            result.setPixel(i, target.getHeight() - j - 1, target.getPixel(i, j));
+    Write_Tga("output/result.tga", result.getWidth(), result.getHeight(), result.getBuffer());
     PROFILE_END();
 
 #undef PROFILE_START
