@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../IModelSpace.h"
+#include "IModelSpace.h"
 
 namespace ModelSpaces
 {

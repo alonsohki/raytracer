@@ -11,18 +11,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\pixbuffer.cpp" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\model_spaces\BruteForce.cpp" />
+    <ClCompile Include="src\PixBuffer.cpp" />
     <ClCompile Include="src\ply_reader.cpp" />
     <ClCompile Include="src\tga_saver.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\pixbuffer.h" />
+    <ClInclude Include="src\model_spaces\BruteForce.h" />
+    <ClInclude Include="src\model_spaces\IModelSpace.h" />
+    <ClInclude Include="src\model_spaces\MathUtil.h" />
+    <ClInclude Include="src\PixBuffer.h" />
     <ClInclude Include="src\ply_reader.h" />
-    <ClInclude Include="src\profiler.h" />
+    <ClInclude Include="src\Profiler.h" />
+    <ClInclude Include="src\shapes\Ray.h" />
+    <ClInclude Include="src\shapes\Shapes.h" />
+    <ClInclude Include="src\shapes\Triangle.h" />
     <ClInclude Include="src\tga_saver.h" />
-    <ClInclude Include="src\utils.h" />
-    <ClInclude Include="src\vector.h" />
+    <ClInclude Include="src\Utils.h" />
+    <ClInclude Include="src\Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\readme.txt" />

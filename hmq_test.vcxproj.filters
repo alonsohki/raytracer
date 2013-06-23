@@ -8,6 +8,12 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{d66730ac-8d07-456a-bf11-442d9bbfabba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\model_spaces">
+      <UniqueIdentifier>{c911d26c-eee0-4ef1-aca7-a7c01f116121}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\shapes">
+      <UniqueIdentifier>{79bd4b13-f902-47a2-83da-bd5c16cbc885}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ply_reader.cpp">
@@ -16,10 +22,13 @@
     <ClCompile Include="src\tga_saver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\model_spaces\BruteForce.cpp">
+      <Filter>Source Files\model_spaces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\pixbuffer.cpp">
+    <ClCompile Include="src\PixBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -30,17 +39,35 @@
     <ClInclude Include="src\tga_saver.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\vector.h">
+    <ClInclude Include="src\model_spaces\BruteForce.h">
+      <Filter>Source Files\model_spaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model_spaces\MathUtil.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\utils.h">
+    <ClInclude Include="src\shapes\Ray.h">
+      <Filter>Source Files\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\Shapes.h">
+      <Filter>Source Files\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shapes\Triangle.h">
+      <Filter>Source Files\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PixBuffer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\profiler.h">
+    <ClInclude Include="src\Profiler.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\pixbuffer.h">
+    <ClInclude Include="src\Utils.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vector.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model_spaces\IModelSpace.h">
+      <Filter>Source Files\model_spaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
