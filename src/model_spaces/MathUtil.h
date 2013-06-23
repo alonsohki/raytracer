@@ -1,5 +1,7 @@
 #pragma once
 
+#include "shapes/Shapes.h"
+
 class MathUtil
 {
 public:
