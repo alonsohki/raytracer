@@ -1,3 +1,10 @@
+//
+// FILE:        BruteForce.h
+// LICENSE:     The MIT license
+// PURPOUSE:    Brute-force model space: No optimization at all in the collision detection.
+// AUTHORS:     Alberto Alonso <rydencillo@gmail.com>
+//
+
 #pragma once
 
 #include "IModelSpace.h"

@@ -1,3 +1,10 @@
+//
+// FILE:        PixBuffer.h
+// LICENSE:     The MIT license
+// PURPOUSE:    Pixel buffer management.
+// AUTHORS:     Alberto Alonso <rydencillo@gmail.com>
+//
+
 #pragma once
 
 #include <cstring>

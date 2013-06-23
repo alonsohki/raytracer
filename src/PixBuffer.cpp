@@ -1,4 +1,11 @@
-#include "pixbuffer.h"
+//
+// FILE:        PixBuffer.cpp
+// LICENSE:     The MIT license
+// PURPOUSE:    Pixel buffer management.
+// AUTHORS:     Alberto Alonso <rydencillo@gmail.com>
+//
+
+#include "PixBuffer.h"
 
 PixBuffer::PixBuffer ( unsigned int width, unsigned int height, unsigned int depth )
 : mBuffer(nullptr)

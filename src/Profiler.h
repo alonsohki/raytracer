@@ -1,3 +1,10 @@
+//
+// FILE:        Profiler.h
+// LICENSE:     The MIT license
+// PURPOUSE:    Profiler to time execution of routines.
+// AUTHORS:     Alberto Alonso <rydencillo@gmail.com>
+//
+
 #pragma once
 
 #ifdef WIN32

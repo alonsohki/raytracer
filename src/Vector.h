@@ -1,8 +1,15 @@
+//
+// FILE:        Vector.h
+// LICENSE:     The MIT license
+// PURPOUSE:    3D vector class.
+// AUTHORS:     Alberto Alonso <rydencillo@gmail.com>
+//
+
 #pragma once
 
 #include <sstream>
 #include <string>
-#include "utils.h"
+#include "Utils.h"
 
 template < typename T >
 struct Vector3

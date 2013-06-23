@@ -1,3 +1,11 @@
+//
+// FILE:        IModelSpace.h
+// LICENSE:     The MIT license
+// PURPOUSE:    Interface for model spaces defining the necessary functions to load
+//              models and to perform the ray-tracing on them.
+// AUTHORS:     Alberto Alonso <rydencillo@gmail.com>
+//
+
 #pragma once
 
 #include "../shapes/Ray.h"

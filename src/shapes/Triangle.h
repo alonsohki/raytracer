@@ -1,6 +1,13 @@
+//
+// FILE:        Triangle.h
+// LICENSE:     The MIT license
+// PURPOUSE:    Data structure for Triangles in a 3D space.
+// AUTHORS:     Alberto Alonso <rydencillo@gmail.com>
+//
+
 #pragma once
 
-#include "../vector.h"
+#include "../Vector.h"
 
 struct Triangle
 {

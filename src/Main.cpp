@@ -1,11 +1,19 @@
+//
+// FILE:        Main.cpp
+// LICENSE:     The MIT license
+// PURPOUSE:    Application entry point.
+// AUTHORS:     Alberto Alonso <rydencillo@gmail.com>
+//
+
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
-#include "pixbuffer.h"
+#include "MathUtil.h"
+#include "Pixbuffer.h"
 #include "ply_reader.h"
-#include "profiler.h"
+#include "Profiler.h"
 #include "tga_saver.h"
-#include "vector.h"
+#include "Vector.h"
 
 int main(int argc, const char* argv[], const char* envp[])
 {
