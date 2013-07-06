@@ -11,9 +11,6 @@
     <Filter Include="Source Files\model_spaces">
       <UniqueIdentifier>{c911d26c-eee0-4ef1-aca7-a7c01f116121}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\shapes">
-      <UniqueIdentifier>{79bd4b13-f902-47a2-83da-bd5c16cbc885}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ply_reader.cpp">
@@ -37,6 +34,9 @@
     <ClCompile Include="src\model_spaces\AvgNormalCalculator.cpp">
       <Filter>Source Files\model_spaces</Filter>
     </ClCompile>
+    <ClCompile Include="src\Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ply_reader.h">
@@ -47,15 +47,6 @@
     </ClInclude>
     <ClInclude Include="src\model_spaces\BruteForce.h">
       <Filter>Source Files\model_spaces</Filter>
-    </ClInclude>
-    <ClInclude Include="src\shapes\Ray.h">
-      <Filter>Source Files\shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\shapes\Shapes.h">
-      <Filter>Source Files\shapes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\shapes\Triangle.h">
-      <Filter>Source Files\shapes</Filter>
     </ClInclude>
     <ClInclude Include="src\PixBuffer.h">
       <Filter>Source Files</Filter>
@@ -85,6 +76,21 @@
       <Filter>Source Files\model_spaces</Filter>
     </ClInclude>
     <ClInclude Include="src\Face.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Collision.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vertex.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Ray.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BoundingBox.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

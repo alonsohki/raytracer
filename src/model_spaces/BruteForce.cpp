@@ -36,12 +36,12 @@ void BruteForce::load ( const vec3f* vertices, unsigned int vertexCount, const F
     mBounds = BoundingBox::calculateFromVertices ( mVertices, mVertexCount );
 }
 
-void BruteForce::getBounds ( BoundingBox* bbox )
+void BruteForce::getBounds ( BoundingBox* bbox ) const
 {
     *bbox = mBounds;
 }
 
-bool BruteForce::intersect ( const Ray& ray, Collision* c )
+bool BruteForce::intersect ( const Ray& ray, Collision* c ) const
 {
     bool intersected = false;
     c->t = std::numeric_limits<float>::infinity();
@@ -57,8 +57,7 @@ bool BruteForce::intersect ( const Ray& ray, Collision* c )
         // Compute gradient, which tells us how steep of an angle
         // we are approaching the front side of a triangle.
         float g = dot(n, ray.delta);
-
-
+        
         // Is it paralel to the plane, or pointing from behind the front face?
         if ( !(g < 0.0f) )
             continue;
@@ -77,7 +76,7 @@ bool BruteForce::intersect ( const Ray& ray, Collision* c )
 
 
         // Have we already found a closer intersection?
-        if ( !(t >= g * c->t) )
+        if ( !(fabs(t - g * c->t) > 0.000001f) )
             continue;
 
 
@@ -85,11 +84,10 @@ bool BruteForce::intersect ( const Ray& ray, Collision* c )
         // Let's calculate the actual parametric value
         t /= g;
         assert(t >= 0.0f);
-        assert(t <= c->t);
+        assert(fabs(t - c->t) > 0.000001f);
 
         // Computer the intersection 3D point
         vec3f p = ray.origin + ray.delta*t;
-
     
         // Project the triangle onto the most significant axis-aligned plane
         float x0, x1, x2;
@@ -155,11 +153,11 @@ bool BruteForce::intersect ( const Ray& ray, Collision* c )
         c->point = barycentric;
         c->point.normalize();
         c->v0.position = v0;
-        c->v0.normal = n;
+        c->v0.normal = mNormals[face.v1];
         c->v1.position = v1;
-        c->v1.normal = n;
+        c->v1.normal = mNormals[face.v2];
         c->v2.position = v2;
-        c->v2.normal = n;
+        c->v2.normal = mNormals[face.v3];
     }
     return intersected;
 }

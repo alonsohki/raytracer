@@ -17,10 +17,13 @@
     <ClCompile Include="src\model_spaces\BruteForce.cpp" />
     <ClCompile Include="src\PixBuffer.cpp" />
     <ClCompile Include="src\ply_reader.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\tga_saver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Barycentric.h" />
+    <ClInclude Include="src\BoundingBox.h" />
+    <ClInclude Include="src\Collision.h" />
     <ClInclude Include="src\Config.h" />
     <ClInclude Include="src\Face.h" />
     <ClInclude Include="src\MathUtil.h" />
@@ -30,12 +33,12 @@
     <ClInclude Include="src\PixBuffer.h" />
     <ClInclude Include="src\ply_reader.h" />
     <ClInclude Include="src\Profiler.h" />
-    <ClInclude Include="src\shapes\Ray.h" />
-    <ClInclude Include="src\shapes\Shapes.h" />
-    <ClInclude Include="src\shapes\Triangle.h" />
+    <ClInclude Include="src\Ray.h" />
+    <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\tga_saver.h" />
     <ClInclude Include="src\Utils.h" />
     <ClInclude Include="src\Vector.h" />
+    <ClInclude Include="src\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\readme.txt" />
@@ -101,6 +104,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <OpenMPSupport>true</OpenMPSupport>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -7,7 +7,7 @@
 
 #pragma once
 
-#define MODEL_PATH "models/happy_vrip_res4.ply"
+#define MODEL_PATH "models/happy_vrip_res3.ply"
 //#define USE_KDTREES
-#define TARGET_WIDTH 800
-#define TARGET_HEIGHT 600
+#define TARGET_WIDTH 640
+#define TARGET_HEIGHT 480

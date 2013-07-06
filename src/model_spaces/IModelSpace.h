@@ -22,6 +22,6 @@ public:
     virtual         ~IModelSpace    () {}
 
     virtual void    load            ( const vec3f* vertices, unsigned int vertexCount, const Face* faces, unsigned int faceCount ) = 0;
-    virtual bool    intersect       ( const Ray& ray, Collision* collision ) = 0;
-    virtual void    getBounds       ( BoundingBox* bbox ) = 0;
+    virtual bool    intersect       ( const Ray& ray, Collision* collision ) const = 0;
+    virtual void    getBounds       ( BoundingBox* bbox ) const = 0;
 };

@@ -14,6 +14,7 @@
 #include "Pixbuffer.h"
 #include "ply_reader.h"
 #include "Profiler.h"
+#include "Renderer.h"
 #include "tga_saver.h"
 #include "Vector.h"
 
@@ -47,19 +48,12 @@ int main(int argc, const char* argv[], const char* envp[])
     target.clear ( 0x000000 );
     PROFILE_END();
 
-    BoundingBox bbox;
-    Collision c;
-    Ray ray;
 
-    modelSpace.getBounds(&bbox);
-    ray.origin = vec3f(lerp(bbox.min.x(), bbox.max.x(), 0.5f),
-                       lerp(bbox.min.y(), bbox.max.y(), 0.5f),
-                       -1.0f);
-    ray.delta = vec3f(0, 0, 10);
-    if ( modelSpace.intersect(ray, &c) )
-        puts("Collided!");
-    else
-        puts("Not collided.");
+    // Render!
+    PROFILE_START("Rendering ... ");
+    Renderer renderer;
+    renderer.renderModel(&target, &modelSpace);
+    PROFILE_END();
 
 
     // Save the result

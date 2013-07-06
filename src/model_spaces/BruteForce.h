@@ -19,8 +19,8 @@ namespace ModelSpaces
         virtual         ~BruteForce     ();
 
         virtual void    load            ( const vec3f* vertices, unsigned int vertexCount, const Face* faces, unsigned int faceCount );
-        virtual bool    intersect       ( const Ray& ray, Collision* collision );
-        virtual void    getBounds       ( BoundingBox* bbox );
+        virtual bool    intersect       ( const Ray& ray, Collision* collision ) const;
+        virtual void    getBounds       ( BoundingBox* bbox ) const;
 
 
     private:
