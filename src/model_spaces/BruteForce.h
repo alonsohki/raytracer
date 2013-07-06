@@ -25,6 +25,7 @@ namespace ModelSpaces
         const Face*     mFaces;
         const vec3f*    mVertices;
         vec3f*          mNormals;
+        vec3f*          mFaceNormals;
         unsigned int    mFaceCount;
         unsigned int    mVertexCount;
     };

@@ -15,6 +15,6 @@ namespace ModelSpaces
     public:
         static void calc ( const vec3f* vertices, unsigned int vertexCount,
                            const Face* faces, unsigned int faceCount,
-                           vec3f** normals );
+                           vec3f** normals, vec3f** faceNormals );
     };
 }

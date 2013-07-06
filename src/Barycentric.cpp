@@ -6,6 +6,7 @@
 //
 
 #include "Barycentric.h"
+#include <cmath>
 #include "MathUtil.h"
 
 void Barycentric::normalize ()

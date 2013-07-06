@@ -17,11 +17,15 @@ struct AvgMeta
 
 void AvgNormalCalculator::calc ( const vec3f* vertices, unsigned int vertexCount,
                                  const Face* faces, unsigned int faceCount,
-                                 vec3f** normals )
+                                 vec3f** normals, vec3f** faceNormals )
 {
     // Allocate as many normals as vertices
     *normals = new vec3f [ vertexCount ];
     memset ( *normals, 0, sizeof(vec3f) * vertexCount );
+
+    // Allocate as many face normals as faces
+    *faceNormals = new vec3f [ faceCount ];
+    memset ( *faceNormals, 0, sizeof(vec3f) * faceCount );
 
     // Allocate the metadata for our average calculator
     AvgMeta* meta = new AvgMeta [ vertexCount ];
@@ -45,6 +49,8 @@ void AvgNormalCalculator::calc ( const vec3f* vertices, unsigned int vertexCount
         try
         {
             vec3f normal = normalize(cross(dir1, dir2));
+
+            (*faceNormals)[i] = normal;
 
             // Accumulate this normal onto all the polygon vertices
             meta[face.v1].faceCount++;
