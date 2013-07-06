@@ -47,10 +47,15 @@ int main(int argc, const char* argv[], const char* envp[])
     target.clear ( 0x000000 );
     PROFILE_END();
 
+    BoundingBox bbox;
     Collision c;
     Ray ray;
-    ray.origin = vec3f(-0.8f, 1.0f, 0);
-    ray.delta = vec3f(0, 0, 1);
+
+    modelSpace.getBounds(&bbox);
+    ray.origin = vec3f(lerp(bbox.min.x(), bbox.max.x(), 0.5f),
+                       lerp(bbox.min.y(), bbox.max.y(), 0.5f),
+                       -1.0f);
+    ray.delta = vec3f(0, 0, 10);
     if ( modelSpace.intersect(ray, &c) )
         puts("Collided!");
     else

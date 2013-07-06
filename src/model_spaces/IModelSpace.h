@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include "../BoundingBox.h"
 #include "../Collision.h"
 #include "../Face.h"
 #include "../Ray.h"
@@ -22,4 +23,5 @@ public:
 
     virtual void    load            ( const vec3f* vertices, unsigned int vertexCount, const Face* faces, unsigned int faceCount ) = 0;
     virtual bool    intersect       ( const Ray& ray, Collision* collision ) = 0;
+    virtual void    getBounds       ( BoundingBox* bbox ) = 0;
 };

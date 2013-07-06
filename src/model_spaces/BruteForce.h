@@ -20,6 +20,7 @@ namespace ModelSpaces
 
         virtual void    load            ( const vec3f* vertices, unsigned int vertexCount, const Face* faces, unsigned int faceCount );
         virtual bool    intersect       ( const Ray& ray, Collision* collision );
+        virtual void    getBounds       ( BoundingBox* bbox );
 
 
     private:
@@ -29,5 +30,6 @@ namespace ModelSpaces
         vec3f*          mFaceNormals;
         unsigned int    mFaceCount;
         unsigned int    mVertexCount;
+        BoundingBox     mBounds;
     };
 }

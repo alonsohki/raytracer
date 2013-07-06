@@ -14,4 +14,10 @@ namespace
     {
         return ( (value < begin) ? begin : ((value > end) ? end : value ) );
     }
+
+    template < class T >
+    T lerp ( const T& from, const T& to, float delta )
+    {
+        return from + ( to - from ) * delta;
+    }
 };
