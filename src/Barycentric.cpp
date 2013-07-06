@@ -17,7 +17,7 @@ void Barycentric::normalize ()
 
     // Normalize the length to 1
     float length = v1 + v2 + v3;
-    if ( length != 0.0f )
+    if ( fabs(length) > 0.000001f )
     {
         v1 /= length;
         v2 /= length;

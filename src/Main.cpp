@@ -8,7 +8,9 @@
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
+#include "Config.h"
 #include "MathUtil.h"
+#include "model_spaces/BruteForce.h"
 #include "Pixbuffer.h"
 #include "ply_reader.h"
 #include "Profiler.h"
@@ -30,6 +32,14 @@ int main(int argc, const char* argv[], const char* envp[])
 	model = Read_PLY_Model(modelPath);
 	PROFILE_END();
 
+    // Let's create the model space with the loaded model data.
+    PROFILE_START("Building model space ... ");
+#ifndef USE_KDTREES
+    ModelSpaces::BruteForce modelSpace;
+#endif
+    modelSpace.load ( &model->m_vertex_data[0], model->Get_Vertex_Count(),
+                      &model->m_face_data[0], model->Get_Face_Count() );
+    PROFILE_END();
 
     // Create a pixbuf as render target
     PROFILE_START("Creating render target ... ");
