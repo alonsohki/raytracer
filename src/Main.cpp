@@ -15,6 +15,7 @@
 #include "ply_reader.h"
 #include "Profiler.h"
 #include "Renderer.h"
+#include "test/TestOutput.h"
 #include "tga_saver.h"
 #include "Vector.h"
 
@@ -65,6 +66,18 @@ int main(int argc, const char* argv[], const char* envp[])
             result.setPixel(i, target.getHeight() - j - 1, target.getPixel(i, j));
     Write_Tga("output/result.tga", result.getWidth(), result.getHeight(), result.getBuffer());
     PROFILE_END();
+
+
+    // Run the test case
+    printf ( "Testing ... " );
+    fflush ( stdout );
+    Test::TestOutput test;
+    if ( test.compareOutput("output/result.tga", "output/expected_result.tga") )
+        puts("OK!");
+    else
+    {
+        printf("Error: %s\n", test.getError());
+    }
 
 #undef PROFILE_START
 #undef PROFILE_END

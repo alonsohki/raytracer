@@ -11,6 +11,9 @@
     <Filter Include="Source Files\model_spaces">
       <UniqueIdentifier>{c911d26c-eee0-4ef1-aca7-a7c01f116121}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\test">
+      <UniqueIdentifier>{05f42d06-de00-46a1-abe1-6de2ee6f035d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ply_reader.cpp">
@@ -36,6 +39,9 @@
     </ClCompile>
     <ClCompile Include="src\Renderer.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\TestOutput.cpp">
+      <Filter>Source Files\test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +98,12 @@
     </ClInclude>
     <ClInclude Include="src\Renderer.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\TestCase.h">
+      <Filter>Source Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\TestOutput.h">
+      <Filter>Source Files\test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
