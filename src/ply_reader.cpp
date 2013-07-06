@@ -49,11 +49,11 @@ auto_ptr<PLY_Model> Read_PLY_Model(const char *filename)
 	// Read vertex data
 	for (int i = 0; i < vertex_count; ++i)
 	{
-        vec3f vertex;
-        fscanf(file, "%f", &vertex.x());
-        fscanf(file, "%f", &vertex.y());
-        fscanf(file, "%f", &vertex.z());
-		res->m_vertex_data.push_back(vertex);
+        double values[3];
+        fscanf(file, "%lf", &values[0]);
+        fscanf(file, "%lf", &values[1]);
+        fscanf(file, "%lf", &values[2]);
+		res->m_vertex_data.push_back(vec3f((float)values[0], (float)values[1], (float)values[2]));
 	}
 
 	// Read face (triangles) data

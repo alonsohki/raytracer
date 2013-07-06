@@ -32,21 +32,29 @@ void AvgNormalCalculator::calc ( const vec3f* vertices, unsigned int vertexCount
     for ( unsigned int i = 0; i < faceCount; ++i )
     {
         const Face& face = faces[i];
+        const vec3f& v1 = vertices[face.v1];
+        const vec3f& v2 = vertices[face.v2];
+        const vec3f& v3 = vertices[face.v3];
 
         // Get the vectors of the first and second polygon edges.
-        vec3f dir1 = vertices[face.v2] - vertices[face.v1];
-        vec3f dir2 = vertices[face.v3] - vertices[face.v1];
+        vec3f dir1 = v2 - v1;
+        vec3f dir2 = v3 - v1;
 
         // Calculate the normal with the cross product of the edge vectors
-        vec3f normal = normalize(cross(dir1, dir2));
+        // Ignore empty polygons
+        try
+        {
+            vec3f normal = normalize(cross(dir1, dir2));
 
-        // Accumulate this normal onto all the polygon vertices
-        meta[face.v1].faceCount++;
-        meta[face.v2].faceCount++;
-        meta[face.v3].faceCount++;
-        (*normals)[face.v1] += normal;
-        (*normals)[face.v2] += normal;
-        (*normals)[face.v3] += normal;
+            // Accumulate this normal onto all the polygon vertices
+            meta[face.v1].faceCount++;
+            meta[face.v2].faceCount++;
+            meta[face.v3].faceCount++;
+            (*normals)[face.v1] += normal;
+            (*normals)[face.v2] += normal;
+            (*normals)[face.v3] += normal;
+        }
+        catch ( ... ) {}
     }
 
     // Calculate the averages

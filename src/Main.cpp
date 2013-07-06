@@ -26,7 +26,7 @@ int main(int argc, const char* argv[], const char* envp[])
 #define PROFILE_END() std::cout << (profiler.stop() / 1000.0) << " seconds " << std::endl
 
 	// Load the PLY model
-	const char* modelPath = "models/happy_vrip_res4.ply";
+	const char* modelPath = MODEL_PATH;
 
 	PROFILE_START("Loading model " << modelPath << " ... ");
 	model = Read_PLY_Model(modelPath);
