@@ -20,8 +20,6 @@ struct Vector3
 
 	Vector3 ()
 	{
-		for ( unsigned int i = 0; i < NUMELEMS(v); ++i )
-			v[i] = 0;
 	}
 
 	Vector3 ( const Vector3& other )
@@ -62,7 +60,7 @@ struct Vector3
             result.v[i] += right.v[i];
         return result;
     }
-    Vector3& operator+= ( const Vector3& r )
+    Vector3& operator+= ( const Vector3& right )
     {
         for ( unsigned int i = 0; i < NUMELEMS(v); ++i )
             v[i] += right.v[i];
@@ -76,7 +74,7 @@ struct Vector3
             result.v[i] -= right.v[i];
         return result;
     }
-    Vector3& operator-= ( const Vector3& r )
+    Vector3& operator-= ( const Vector3& right )
     {
         for ( unsigned int i = 0; i < NUMELEMS(v); ++i )
             v[i] -= right.v[i];

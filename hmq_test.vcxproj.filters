@@ -34,6 +34,9 @@
     <ClCompile Include="src\Barycentric.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\model_spaces\AvgNormalCalculator.cpp">
+      <Filter>Source Files\model_spaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ply_reader.h">
@@ -73,6 +76,15 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Barycentric.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Config.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model_spaces\AvgNormalCalculator.h">
+      <Filter>Source Files\model_spaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Face.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -29,7 +29,7 @@ void BruteForce::load ( const vec3f* vertices, unsigned int vertexCount, const F
     mVertices = vertices;
     mVertexCount = vertexCount;
 
-    //AvgNormalCalculator::calc ( mVertices, mVertexCount, mFaces, mFaceCount, &mNormals );
+    AvgNormalCalculator::calc ( mVertices, mVertexCount, mFaces, mFaceCount, &mNormals );
 }
 
 bool BruteForce::intersect ( const Ray& ray, vec3f* pos, vec3f* normal )

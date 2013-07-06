@@ -47,12 +47,12 @@ struct PLY_Model
 
 	size_t Get_Vertex_Count() const
 	{
-		return m_vertex_data.size() / 3;
+		return m_vertex_data.size();
 	}
 
 	size_t Get_Face_Count() const
 	{
-		return m_face_data.size() / 3;
+		return m_face_data.size();
 	}
 
 	// Public raw model data
