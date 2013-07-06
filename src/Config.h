@@ -9,3 +9,5 @@
 
 #define MODEL_PATH "models/happy_vrip_res4.ply"
 //#define USE_KDTREES
+#define TARGET_WIDTH 800
+#define TARGET_HEIGHT 600

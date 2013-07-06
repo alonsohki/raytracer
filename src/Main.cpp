@@ -43,7 +43,7 @@ int main(int argc, const char* argv[], const char* envp[])
 
     // Create a pixbuf as render target
     PROFILE_START("Creating render target ... ");
-    PixBuffer target ( 800, 600, 24 );
+    PixBuffer target ( TARGET_WIDTH, TARGET_HEIGHT, 24 );
     target.clear ( 0x000000 );
     PROFILE_END();
 
