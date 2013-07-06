@@ -5,6 +5,7 @@
 // AUTHORS:     Alberto Alonso <rydencillo@gmail.com>
 //
 
+#include "MathUtil.h"
 #include "tga_saver.h"
 #include "Renderer.h"
 
@@ -46,15 +47,13 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
         {
             Collision col;
             Ray ray;
-            ray.delta = vec3f(0.0f, -0.05f, 10.0f);
+            ray.delta = vec3f(0.0f, 0.0f, 10.0f);
             ray.origin = vec3f(left + stepX * i, top - stepY * j, -1.0f);
             if ( model->intersect(ray, &col) == true )
             {
                 vec3f normal = col.v0.normal * col.point.alpha + col.v1.normal * col.point.beta + col.v2.normal * col.point.gamma;
                 vec3f lightDir = normalize(ray.delta);
-
-                // No need to saturate it, as the collision detector already detects front faces.
-                float diffuse = -dot(normal, lightDir);
+                float diffuse = saturate(-dot(normal, lightDir));
                 unsigned int color = (unsigned int)(0xFF * diffuse) & 0xFF;
                 color |= color << 8 | color << 16 | color << 24;
                 target->setPixel(i, j, color);

@@ -84,7 +84,6 @@ bool BruteForce::intersect ( const Ray& ray, Collision* c ) const
         // Let's calculate the actual parametric value
         t /= g;
         assert(t >= 0.0f);
-        assert(fabs(t - c->t) > 0.000001f);
 
         // Computer the intersection 3D point
         vec3f p = ray.origin + ray.delta*t;

@@ -16,6 +16,12 @@ namespace
     }
 
     template < class T >
+    T saturate ( const T& value )
+    {
+        return clamp<T>(0, value, 1);
+    }
+
+    template < class T >
     T lerp ( const T& from, const T& to, float delta )
     {
         return from + ( to - from ) * delta;
