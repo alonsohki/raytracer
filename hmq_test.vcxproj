@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Barycentric.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\model_spaces\BruteForce.cpp" />
     <ClCompile Include="src\PixBuffer.cpp" />
@@ -18,9 +19,10 @@
     <ClCompile Include="src\tga_saver.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Barycentric.h" />
+    <ClInclude Include="src\MathUtil.h" />
     <ClInclude Include="src\model_spaces\BruteForce.h" />
     <ClInclude Include="src\model_spaces\IModelSpace.h" />
-    <ClInclude Include="src\model_spaces\MathUtil.h" />
     <ClInclude Include="src\PixBuffer.h" />
     <ClInclude Include="src\ply_reader.h" />
     <ClInclude Include="src\Profiler.h" />

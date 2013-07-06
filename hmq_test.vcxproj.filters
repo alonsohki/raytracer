@@ -31,6 +31,9 @@
     <ClCompile Include="src\PixBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Barycentric.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ply_reader.h">
@@ -41,9 +44,6 @@
     </ClInclude>
     <ClInclude Include="src\model_spaces\BruteForce.h">
       <Filter>Source Files\model_spaces</Filter>
-    </ClInclude>
-    <ClInclude Include="src\model_spaces\MathUtil.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\shapes\Ray.h">
       <Filter>Source Files\shapes</Filter>
@@ -68,6 +68,12 @@
     </ClInclude>
     <ClInclude Include="src\model_spaces\IModelSpace.h">
       <Filter>Source Files\model_spaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MathUtil.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Barycentric.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
