@@ -8,8 +8,12 @@
 #include <assert.h>
 #include <float.h>
 
+#include "Face.h"
+#include "Vector.h"
+
 struct PLY_Model
 {
+#if 0
 	// Helper accessors
 	float Get_Coordinate(size_t face, int triangle_vtx_idx, int axis) const
 	{
@@ -39,6 +43,7 @@ struct PLY_Model
 	BOUND_FUN(Max, -FLT_MAX, >)
 
 #undef BOUND_FUN
+#endif
 
 	size_t Get_Vertex_Count() const
 	{
@@ -51,8 +56,8 @@ struct PLY_Model
 	}
 
 	// Public raw model data
-	std::vector<float>	m_vertex_data;
-	std::vector<int>	m_face_data;
+	std::vector<vec3f>	m_vertex_data;
+	std::vector<Face>	m_face_data;
 };
 
 // Note: This is not a general PLY model reader, it works only with the

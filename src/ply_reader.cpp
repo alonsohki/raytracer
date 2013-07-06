@@ -1,5 +1,7 @@
 // This code is "Public Domain", no rights reserved.
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "ply_reader.h"
 
 #include <iostream>
@@ -10,6 +12,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+
+#include "Face.h"
+#include "Vector.h"
 
 using namespace std;
 
@@ -42,28 +47,29 @@ auto_ptr<PLY_Model> Read_PLY_Model(const char *filename)
 	res->m_face_data.reserve(face_count);
 
 	// Read vertex data
-	for (int i = 0; i < vertex_count * 3; ++i)
+	for (int i = 0; i < vertex_count; ++i)
 	{
-		float val = 0;
-		fscanf(file, "%f", &val);
-		res->m_vertex_data.push_back(val);
+        vec3f vertex;
+        fscanf(file, "%f", &vertex.x());
+        fscanf(file, "%f", &vertex.y());
+        fscanf(file, "%f", &vertex.z());
+		res->m_vertex_data.push_back(vertex);
 	}
 
 	// Read face (triangles) data
-	for (int i = 0; i < face_count * 4; ++i)
+	for (int i = 0; i < face_count; ++i)
 	{
-		int val = 0;
-		fscanf(file, "%d", &val);
-
-		if (i % 4 == 0)
-		{
-			// Beginning of the face data row, assert that we have triangles
-			assert(val == 3);
-		}
-		else
-		{
-			res->m_face_data.push_back(val);
-		}
+        int numVertices;
+        fscanf(file, "%d", &numVertices);
+        
+        // Beginning of the face data row, assert that we have triangles
+        assert(numVertices == 3);
+        
+        Face face;
+        fscanf(file, "%d", &face.v1);
+        fscanf(file, "%d", &face.v2);
+        fscanf(file, "%d", &face.v3);
+    	res->m_face_data.push_back(face);
 	}
 
 	fclose(file);
