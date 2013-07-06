@@ -15,6 +15,8 @@ template < typename T >
 struct Vector3
 {
 	T v [ 3 ];
+    // Make the Vector3 structure 16-byte aligned
+    T __padding;
 
 	Vector3 ()
 	{
@@ -50,6 +52,40 @@ struct Vector3
 		return result.str();
 	}
 
+
+    //--------------------------------------
+    // vec op vec
+    Vector3 operator+ ( const Vector3& right ) const
+    {
+        Vector3 result ( *this );
+        for ( unsigned int i = 0; i < NUMELEMS(v); ++i )
+            result.v[i] += right.v[i];
+        return result;
+    }
+    Vector3& operator+= ( const Vector3& r )
+    {
+        for ( unsigned int i = 0; i < NUMELEMS(v); ++i )
+            v[i] += right.v[i];
+        return *this;
+    }
+
+    Vector3 operator- ( const Vector3& right ) const
+    {
+        Vector3 result ( *this );
+        for ( unsigned int i = 0; i < NUMELEMS(v); ++i )
+            result.v[i] -= right.v[i];
+        return result;
+    }
+    Vector3& operator-= ( const Vector3& r )
+    {
+        for ( unsigned int i = 0; i < NUMELEMS(v); ++i )
+            v[i] -= right.v[i];
+        return *this;
+    }
+
+
+    //--------------------------------------
+    // vec op k
 	Vector3 operator* ( const T& k ) const
 	{
 		Vector3 result ( *this );
@@ -107,6 +143,7 @@ struct Vector3
 	}
 };
 
+
 template < typename T >
 T dot ( const Vector3<T>& u, const Vector3<T>& v )
 {
@@ -134,9 +171,9 @@ T length ( const Vector3<T>& v )
 template < typename T >
 Vector3<T> normalize ( const Vector3<T>& v )
 {
-	T length = length(v);
-	if ( length != 0 )
-		return Vector3(v / length);
+	T len = length(v);
+	if ( len != 0 )
+		return Vector3<T>(v / len);
 	throw "Attempt to normalize null vector";
 }
 
