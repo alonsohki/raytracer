@@ -10,8 +10,9 @@
 
 #pragma once
 
+#include "../Collision.h"
 #include "../Face.h"
-#include "../shapes/Shapes.h"
+#include "../Ray.h"
 #include "../Vector.h"
 
 class IModelSpace
@@ -20,5 +21,5 @@ public:
     virtual         ~IModelSpace    () {}
 
     virtual void    load            ( const vec3f* vertices, unsigned int vertexCount, const Face* faces, unsigned int faceCount ) = 0;
-    virtual bool    intersect       ( const Ray& ray, vec3f* pos, vec3f* normal ) = 0;
+    virtual bool    intersect       ( const Ray& ray, Collision* collision ) = 0;
 };

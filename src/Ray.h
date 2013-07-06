@@ -11,6 +11,6 @@
 
 struct Ray
 {
-    vec3f start;
-    vec3f dir;
+    vec3f origin;
+    vec3f delta;
 };

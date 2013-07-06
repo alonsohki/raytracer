@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "../Collision.h"
 #include "IModelSpace.h"
 
 namespace ModelSpaces
@@ -18,7 +19,7 @@ namespace ModelSpaces
         virtual         ~BruteForce     ();
 
         virtual void    load            ( const vec3f* vertices, unsigned int vertexCount, const Face* faces, unsigned int faceCount );
-        virtual bool    intersect       ( const Ray& ray, vec3f* pos, vec3f* normal );
+        virtual bool    intersect       ( const Ray& ray, Collision* collision );
 
 
     private:

@@ -47,6 +47,15 @@ int main(int argc, const char* argv[], const char* envp[])
     target.clear ( 0x000000 );
     PROFILE_END();
 
+    Collision c;
+    Ray ray;
+    ray.origin = vec3f(-0.8f, 1.0f, 0);
+    ray.delta = vec3f(0, 0, 1);
+    if ( modelSpace.intersect(ray, &c) )
+        puts("Collided!");
+    else
+        puts("Not collided.");
+
 
     // Save the result
     PROFILE_START("Saving the result ... ");

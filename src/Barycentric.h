@@ -9,15 +9,19 @@
 
 struct Barycentric
 {
-    float v1;
-    float v2;
-    float v3;
+    float alpha;
+    float beta;
+    float gamma;
 
-    Barycentric ( const float& v1, const float& v2, const float& v3 )
+    Barycentric ()
     {
-        this->v1 = v1;
-        this->v2 = v2;
-        this->v3 = v3;
+    }
+
+    Barycentric ( const float& a, const float& b, const float& c )
+    {
+        alpha = a;
+        beta = b;
+        gamma = c;
 
         normalize ();
     }
