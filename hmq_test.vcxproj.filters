@@ -43,6 +43,9 @@
     <ClCompile Include="src\test\TestOutput.cpp">
       <Filter>Source Files\test</Filter>
     </ClCompile>
+    <ClCompile Include="src\model_spaces\KDTree.cpp">
+      <Filter>Source Files\model_spaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ply_reader.h">
@@ -104,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="src\test\TestOutput.h">
       <Filter>Source Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model_spaces\KDTree.h">
+      <Filter>Source Files\model_spaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,7 @@
 #include "Config.h"
 #include "MathUtil.h"
 #include "model_spaces/BruteForce.h"
+#include "model_spaces/KDTree.h"
 #include "Pixbuffer.h"
 #include "ply_reader.h"
 #include "Profiler.h"
@@ -36,8 +37,10 @@ int main(int argc, const char* argv[], const char* envp[])
 
     // Let's create the model space with the loaded model data.
     PROFILE_START("Building model space ... ");
-#ifndef USE_KDTREES
+#ifndef USE_KDTREE
     ModelSpaces::BruteForce modelSpace;
+#else
+    ModelSpaces::KDTree modelSpace;
 #endif
     modelSpace.load ( &model->m_vertex_data[0], model->Get_Vertex_Count(),
                       &model->m_face_data[0], model->Get_Face_Count() );

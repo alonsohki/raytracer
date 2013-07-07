@@ -59,11 +59,5 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
                 target->setPixel(i, j, color);
             }
         }
-
-            PixBuffer result ( target->getWidth(), target->getHeight(), target->getDepth() );
-    for ( unsigned int a = 0; a < target->getHeight(); ++a )
-        for ( unsigned int b = 0; b < target->getWidth(); ++b )
-            result.setPixel(b, target->getHeight() - a - 1, target->getPixel(b, a));
-    Write_Tga("output/result.tga", result.getWidth(), result.getHeight(), result.getBuffer());
     }
 }
