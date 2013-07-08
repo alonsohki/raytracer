@@ -8,6 +8,7 @@
 #pragma once
 
 #include "../BoundingBox.h"
+#include "../CPool.h"
 #include "../Face.h"
 #include <vector>
 #include "../Vector.h"
@@ -52,6 +53,7 @@ namespace ModelSpaces { namespace KDTree {
         Node*       internalFindLeaf    ( const vec3f& position, Node* startAt ) const;
 
     private:
+        CPool<Node>             mNodePool;
         Node*                   mRoot;
         std::vector<FaceData>   mFaceData;
     };

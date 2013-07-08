@@ -21,37 +21,6 @@ struct BuildTreeContext
     unsigned int faceCount;
 };
 
-KDTree::KDTree ()
-: mRoot(nullptr)
-{
-}
-
-KDTree::~KDTree ()
-{
-    if ( mRoot != nullptr )
-    {
-        std::vector<Node*> nodes;
-        nodes.push_back ( mRoot );
-
-        do
-        {
-            Node* top = nodes.back();
-            nodes.pop_back();
-
-            if ( !top->isLeaf() )
-            {
-                nodes.push_back(top->left);
-                nodes.push_back(top->right);
-            }
-
-            delete top;
-        }
-        while ( nodes.size() > 0 );
-
-        mRoot = nullptr;
-    }
-}
-
 namespace
 {
     void getStats ( Node* node, unsigned int depth, unsigned int* maxDepth, unsigned int* leafCount, unsigned int* maxPolys, float* averagePolys )
@@ -74,6 +43,17 @@ namespace
     }
 }
 
+
+KDTree::KDTree ()
+: mRoot(nullptr)
+, mNodePool(10240)
+{
+}
+
+KDTree::~KDTree ()
+{
+}
+
 void KDTree::buildFrom ( const vec3f* vertices, unsigned int vertexCount,
                          const Face* faces, unsigned int faceCount )
 {
@@ -93,7 +73,7 @@ void KDTree::buildFrom ( const vec3f* vertices, unsigned int vertexCount,
     context.faces = faces;
     context.faceCount = faceCount;
 
-    mRoot = new Node;
+    mRoot = mNodePool.Alloc();
 #ifdef _DEBUG
     mRoot->parent = nullptr;
 #endif
@@ -139,8 +119,8 @@ void KDTree::internalBuildFrom ( void* context_, Node* node, int axis, unsigned 
     node->splitPos = splitPos;
 
     // Create the left and right nodes
-    node->left = new Node;
-    node->right = new Node;
+    node->left = mNodePool.Alloc();
+    node->right = mNodePool.Alloc();
 
 #ifdef _DEBUG
     node->left->parent = node;
@@ -161,14 +141,16 @@ void KDTree::internalBuildFrom ( void* context_, Node* node, int axis, unsigned 
     if ( node->left->indices.size() == node->indices.size() ||
          node->right->indices.size() == node->indices.size() )
     {
-        delete node->left;
-        delete node->right;
+        mNodePool.Free(node->left);
+        mNodePool.Free(node->right);
         node->left = nullptr;
         node->right = nullptr;
         return;
     }
 
     // Subdivide the child nodes
+    if ( (depth % 4) == 0 )
+    {
 #pragma omp parallel sections
     {
 #pragma omp section
@@ -179,6 +161,19 @@ void KDTree::internalBuildFrom ( void* context_, Node* node, int axis, unsigned 
         }
 #pragma omp section
         {
+            node->right->aabb = node->aabb;
+            node->right->aabb.min.v[axis] = splitPos + std::numeric_limits<float>::epsilon();
+            internalBuildFrom ( context_, node->right, ( axis + 1 ) % 3, depth + 1 );
+        }
+    }
+    }
+    else
+    {
+        {
+            node->left->aabb = node->aabb;
+            node->left->aabb.max.v[axis] = splitPos;
+            internalBuildFrom ( context_, node->left, ( axis + 1 ) % 3, depth + 1 );
+
             node->right->aabb = node->aabb;
             node->right->aabb.min.v[axis] = splitPos + std::numeric_limits<float>::epsilon();
             internalBuildFrom ( context_, node->right, ( axis + 1 ) % 3, depth + 1 );
