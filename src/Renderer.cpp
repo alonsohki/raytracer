@@ -39,12 +39,16 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
 
 
     // Scan the model
+    int x = 0;
     int i, j;
     for ( j = 0; j < (int)target->getHeight(); ++j )
     {
         #pragma omp parallel for
         for ( i = 0; i < (int)target->getWidth(); ++i )
         {
+            if ( i == 336 && j == 131 )
+                ++x;
+
             Collision col;
             Ray ray;
             ray.delta = vec3f(0.0f, 0.0f, 10.0f);

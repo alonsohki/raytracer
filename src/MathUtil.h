@@ -10,6 +10,18 @@
 namespace
 {
     template < class T >
+    T min ( const T& a, const T& b )
+    {
+        return ( a < b ) ? a : b;
+    }
+
+    template < class T >
+    T max ( const T& a, const T& b )
+    {
+        return ( a > b ) ? a : b;
+    }
+
+    template < class T >
     T clamp ( const T& begin, const T& value, const T& end )
     {
         return ( (value < begin) ? begin : ((value > end) ? end : value ) );

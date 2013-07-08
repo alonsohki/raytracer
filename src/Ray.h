@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "../Vector.h"
+#include "Vector.h"
 
 struct Ray
 {

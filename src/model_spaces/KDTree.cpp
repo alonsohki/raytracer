@@ -6,6 +6,7 @@
 //
 
 #include <algorithm>
+#include <cassert>
 #include "KDTree.h"
 
 using namespace ModelSpaces::KDTree;
@@ -60,10 +61,10 @@ namespace
 
         if ( node->isLeaf() )
         {
-            *averagePolys = ((*averagePolys) * (*leafCount) + node->indexCount) / ((*leafCount) + 1);
+            *averagePolys = ((*averagePolys) * (*leafCount) + node->indices.size()) / ((*leafCount) + 1);
             (*leafCount)++;
-            if ( node->indexCount > *maxPolys )
-                *maxPolys = node->indexCount;
+            if ( node->indices.size() > *maxPolys )
+                *maxPolys = node->indices.size();
         }
         else
         {
@@ -77,8 +78,6 @@ void KDTree::buildFrom ( const vec3f* vertices, unsigned int vertexCount,
                          const Face* faces, unsigned int faceCount )
 {
     // Build the faces data
-    mFaceData.reserve ( faceCount );
-    mIndices.reserve ( faceCount );
     for ( int i = 0; i < (int)faceCount; ++i )
     {
         const Face& cur = faces[i];
@@ -86,18 +85,20 @@ void KDTree::buildFrom ( const vec3f* vertices, unsigned int vertexCount,
         data.centroid = (vertices[cur.v1] + vertices[cur.v2] + vertices[cur.v3]) / 3.0f;
         data.aabb = BoundingBox::calculateFromVertices(vertices, 3, cur.v1, cur.v2, cur.v3);
         mFaceData.push_back(data);
-
-        mIndices.push_back(i);
     }
-
-    BoundingBox rootAABB = BoundingBox::calculateFromVertices(vertices, vertexCount);
 
     BuildTreeContext context;
     context.vertices = vertices;
     context.vertexCount = vertexCount;
     context.faces = faces;
     context.faceCount = faceCount;
-    mRoot = internalBuildFrom ( &context, rootAABB, &mIndices[0], mIndices.size(), 0 );
+
+    mRoot = new Node;
+    for ( int i = 0; i < (int)faceCount; ++i )
+    {
+        mRoot->indices.push_back(i);
+    }
+    internalBuildFrom ( &context, mRoot, 0 );
 
 #if 1
     unsigned int maxDepth = 0;
@@ -109,80 +110,65 @@ void KDTree::buildFrom ( const vec3f* vertices, unsigned int vertexCount,
 #endif
 }
 
-Node* KDTree::internalBuildFrom ( void* context_, const BoundingBox& bounds, int* indices, unsigned int indexCount, int axis )
+void KDTree::internalBuildFrom ( void* context_, Node* node, int axis )
 {
     BuildTreeContext* context = (BuildTreeContext *)context_;
 
-    Node* node = new Node;
-    node->aabb = bounds;
+    node->aabb = BoundingBox::calculateFromFaces(context->vertices, context->faces, &node->indices[0], node->indices.size());
     node->splittingAxis = axis;
 
-    // Stop conditions
-    if ( indexCount < 2 )
+    if ( node->indices.size() < 2 )
     {
-        node->indices = indices;
-        node->indexCount = indexCount;
         node->left = nullptr;
         node->right = nullptr;
+        return;
     }
 
-    else
+    // Split by median
+    { node->left = node->right = nullptr; return; }
+    std::sort(node->indices.begin(), node->indices.end(), [axis, this] ( int a, int b )
     {
-        // Split by median
-        std::sort(indices, indices + indexCount, [axis, this] ( int a, int b )
-        {
-            return mFaceData[a].centroid.v[axis] < mFaceData[b].centroid.v[axis];
-        });
-        FaceData& median = mFaceData[indexCount / 2];
+        return mFaceData[a].centroid.v[axis] < mFaceData[b].centroid.v[axis];
+    });
 
-        // Find the first polygon that doesn't lie in the left node
-        unsigned int maxLeft;
-        for ( maxLeft = indexCount / 2; maxLeft < indexCount; ++maxLeft )
-        {
-            if ( mFaceData[maxLeft].aabb.min.v[axis] > median.centroid.v[axis] )
-                break;
-        }
+    unsigned int medianPos = node->indices.size() / 2;
+    FaceData& median = mFaceData[node->indices[medianPos]];
+    float splitPos = median.centroid.v[axis];
 
-        // Find the first polygon that lies in the right node
-        unsigned int minRight;
-        for ( minRight = indexCount / 2; minRight > 0; --minRight )
-        {
-            if ( mFaceData[minRight].aabb.max.v[axis] < median.centroid.v[axis] )
-                break;
-        }
-        ++minRight;
+    // Create the left and right nodes
+    node->left = new Node;
+    node->right = new Node;
 
-        // If any of the children contains all the elements, let's just transform this into a leaf
-        if ( maxLeft == indexCount || minRight == 1 )
-        {
-            node->indices = indices;
-            node->indexCount = indexCount;
-            node->left = nullptr;
-            node->right = nullptr;
-        }
-        else
-        {
-            BoundingBox leftBox = bounds;
-            BoundingBox rightBox = bounds;
-
-            leftBox.max.v[axis] = median.centroid.v[axis];
-            rightBox.min.v[axis] = median.centroid.v[axis];
-
-            node->indices = nullptr;
-            node->indexCount = 0;
-            node->left = internalBuildFrom ( context_, leftBox, &indices[0], maxLeft, ( axis + 1 ) % 3 );
-            node->right = internalBuildFrom ( context_, rightBox, &indices[minRight], indexCount - minRight, ( axis + 1 ) % 3 );
-        }
+    // Split the polygons by the newly created nodes
+    for ( auto& index : node->indices )
+    {
+        auto& cur = mFaceData[index];
+        if ( cur.aabb.min.v[axis] <= splitPos )
+            node->left->indices.push_back(index);
+        if ( cur.aabb.max.v[axis] >= splitPos )
+            node->right->indices.push_back(index);
     }
 
-    // Sort the indices based on the current axis
-    return node;
+    // If any of the child nodes contains all the indices, do not expand anymore
+    if ( node->left->indices.size() == node->indices.size() ||
+         node->right->indices.size() == node->indices.size() )
+    {
+        delete node->left;
+        delete node->right;
+        node->left = nullptr;
+        node->right = nullptr;
+        return;
+    }
+
+    // Subdivide the child nodes
+    internalBuildFrom ( context_, node->left, ( axis + 1 ) % 3 );
+    internalBuildFrom ( context_, node->right, ( axis + 1 ) % 3 );
 }
 
 
 
 
-Node* KDTree::findLeaf ( const vec3f& position, Node* node )
+Node* KDTree::findLeaf ( const vec3f& position, Node* node ) const
 {
     if ( node == nullptr )
         return findLeaf ( position, getRoot() );
@@ -193,7 +179,7 @@ Node* KDTree::findLeaf ( const vec3f& position, Node* node )
     return internalFindLeaf(position, node);
 }
 
-Node* KDTree::internalFindLeaf ( const vec3f& position, Node* node )
+Node* KDTree::internalFindLeaf ( const vec3f& position, Node* node ) const
 {
     while ( !node->isLeaf() )
     {

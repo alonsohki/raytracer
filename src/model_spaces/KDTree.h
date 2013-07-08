@@ -25,12 +25,11 @@ namespace ModelSpaces { namespace KDTree {
     {
         int                     splittingAxis;
         BoundingBox             aabb;
-        int*                    indices;
-        unsigned int            indexCount;
+        std::vector<int>        indices;
         Node*                   left;
         Node*                   right;
 
-        bool isLeaf () const { return indexCount != 0; }
+        bool isLeaf () const { return left == nullptr; }
     };
 
     class KDTree
@@ -42,15 +41,14 @@ namespace ModelSpaces { namespace KDTree {
         Node*       getRoot             () const { return mRoot; }
         void        buildFrom           ( const vec3f* vertices, unsigned int vertexCount,
                                           const Face* faces, unsigned int faceCount );
-        Node*       findLeaf            ( const vec3f& position, Node* startAt = nullptr );
+        Node*       findLeaf            ( const vec3f& position, Node* startAt = nullptr ) const;
 
     private:
-        Node*       internalBuildFrom   ( void* context, const BoundingBox& bounds, int* indices, unsigned int indexCount, int axis );
-        Node*       internalFindLeaf    ( const vec3f& position, Node* startAt );
+        void        internalBuildFrom   ( void* context, Node* node, int axis );
+        Node*       internalFindLeaf    ( const vec3f& position, Node* startAt ) const;
 
     private:
         Node*                   mRoot;
         std::vector<FaceData>   mFaceData;
-        std::vector<int>        mIndices;
     };
 } }
