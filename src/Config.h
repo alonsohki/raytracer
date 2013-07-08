@@ -22,3 +22,6 @@
 #define TARGET_HEIGHT 480
 #define CLEAR_COLOR 0x000046
 #define LIGHT_COLOR 0xE8D340
+
+#define RAY_ORIGIN ( 0.25f, 0.25f, 1.0f )
+#define RAY_DELTA ( -2.5f, -2.5f, -10.0f )

@@ -59,7 +59,7 @@ bool KDTreeSpace::intersect ( const Ray& ray, Collision* c ) const
         return false;
 
     // Find the nearest leaf node for the intersection point
-    vec3f point = ray.origin + ray.delta*tmin;
+    vec3f point = ray.origin + ray.delta*(tmin+0.00001f);
     KDTree::Node* node = mKDTree.findLeaf(point, mKDTree.getRoot());
 
     while ( !intersected && node != nullptr )
