@@ -1,5 +1,5 @@
 //
-// FILE:        KDTree.h
+// FILE:        KDTreeSpace.h
 // LICENSE:     The MIT license
 // PURPOUSE:    KD-Tree based model space.
 // AUTHORS:     Alberto Alonso <rydencillo@gmail.com>
@@ -8,24 +8,24 @@
 #include "AvgNormalCalculator.h"
 #include <cassert>
 #include "../Face.h"
-#include "KDTree.h"
+#include "KDTreeSpace.h"
 #include "../Vector.h"
 
 using namespace ModelSpaces;
 
-KDTree::KDTree ()
+KDTreeSpace::KDTreeSpace ()
 : mNormals(nullptr)
 , mFaceNormals(nullptr)
 {
 }
 
-KDTree::~KDTree ()
+KDTreeSpace::~KDTreeSpace ()
 {
     delete [] mFaceNormals;
     delete [] mNormals;
 }
 
-void KDTree::load ( const vec3f* vertices, unsigned int vertexCount, const Face* faces, unsigned int faceCount )
+void KDTreeSpace::load ( const vec3f* vertices, unsigned int vertexCount, const Face* faces, unsigned int faceCount )
 {
     mFaces = faces;
     mFaceCount = faceCount;
@@ -36,12 +36,12 @@ void KDTree::load ( const vec3f* vertices, unsigned int vertexCount, const Face*
     mBounds = BoundingBox::calculateFromVertices ( mVertices, mVertexCount );
 }
 
-void KDTree::getBounds ( BoundingBox* bbox ) const
+void KDTreeSpace::getBounds ( BoundingBox* bbox ) const
 {
     *bbox = mBounds;
 }
 
-bool KDTree::intersect ( const Ray& ray, Collision* c ) const
+bool KDTreeSpace::intersect ( const Ray& ray, Collision* c ) const
 {
     return false;
 }

@@ -1,5 +1,5 @@
 //
-// FILE:        KDTree.h
+// FILE:        KDTreeSpace.h
 // LICENSE:     The MIT license
 // PURPOUSE:    KD-Tree based model space.
 // AUTHORS:     Alberto Alonso <rydencillo@gmail.com>
@@ -12,11 +12,11 @@
 
 namespace ModelSpaces
 {
-    class KDTree : public IModelSpace
+    class KDTreeSpace : public IModelSpace
     {
     public:
-                        KDTree          ();
-        virtual         ~KDTree         ();
+                        KDTreeSpace     ();
+        virtual         ~KDTreeSpace    ();
 
         virtual void    load            ( const vec3f* vertices, unsigned int vertexCount, const Face* faces, unsigned int faceCount );
         virtual bool    intersect       ( const Ray& ray, Collision* collision ) const;
