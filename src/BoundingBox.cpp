@@ -18,6 +18,7 @@ bool BoundingBox::intersect ( const BoundingBox& other ) const
 
 bool BoundingBox::intersect ( const Ray& ray, float* tmin, float* tmax ) const
 {
+    // From http://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
     vec3f T_1, T_2; // vectors to hold the T-values for every direction
     double t_near = -DBL_MAX; // maximums defined in float.h
     double t_far = DBL_MAX;
