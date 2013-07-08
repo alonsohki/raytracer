@@ -15,7 +15,7 @@
 // a block of nodes is allocated.
 #define USE_KDTREE
 #define MAX_KDTREE_DEPTH 32
-#define MIN_KDTREE_NODE_VOLUME 0.0000001
+#define MIN_KDTREE_NODE_VOLUME 0.00000005
 #define KDTREE_POOL_CHUNK_SIZE 4096
 
 #define TARGET_WIDTH 640

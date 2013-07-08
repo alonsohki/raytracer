@@ -40,7 +40,6 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
 
 
     // Scan the model
-    int x = 0;
     int i, j;
     const vec3f rayDelta RAY_DELTA;
     const vec3f lightDir = normalize(rayDelta);
