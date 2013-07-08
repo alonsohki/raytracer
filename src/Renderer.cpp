@@ -41,9 +41,9 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
     // Scan the model
     int x = 0;
     int i, j;
+    #pragma omp parallel for
     for ( j = 0; j < (int)target->getHeight(); ++j )
     {
-        #pragma omp parallel for
         for ( i = 0; i < (int)target->getWidth(); ++i )
         {
             if ( i == 350 && j == 6 )
