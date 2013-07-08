@@ -12,10 +12,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Barycentric.cpp" />
+    <ClCompile Include="src\BoundingBox.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\model_spaces\AvgNormalCalculator.cpp" />
     <ClCompile Include="src\model_spaces\BruteForce.cpp" />
     <ClCompile Include="src\model_spaces\KDTree.cpp" />
+    <ClCompile Include="src\model_spaces\KDTreeSpace.cpp" />
     <ClCompile Include="src\PixBuffer.cpp" />
     <ClCompile Include="src\ply_reader.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
@@ -33,6 +35,7 @@
     <ClInclude Include="src\model_spaces\BruteForce.h" />
     <ClInclude Include="src\model_spaces\IModelSpace.h" />
     <ClInclude Include="src\model_spaces\KDTree.h" />
+    <ClInclude Include="src\model_spaces\KDTreeSpace.h" />
     <ClInclude Include="src\PixBuffer.h" />
     <ClInclude Include="src\ply_reader.h" />
     <ClInclude Include="src\Profiler.h" />

@@ -51,8 +51,27 @@ KDTree::~KDTree ()
     }
 }
 
+namespace
+{
+    void getStats ( Node* node, unsigned int depth, unsigned int* maxDepth, unsigned int* leafCount, unsigned int* maxPolys, float* averagePolys )
+    {
+        if ( depth > *maxDepth )
+            *maxDepth = depth;
 
-
+        if ( node->isLeaf() )
+        {
+            *averagePolys = ((*averagePolys) * (*leafCount) + node->indexCount) / ((*leafCount) + 1);
+            (*leafCount)++;
+            if ( node->indexCount > *maxPolys )
+                *maxPolys = node->indexCount;
+        }
+        else
+        {
+            getStats ( node->left, depth + 1, maxDepth, leafCount, maxPolys, averagePolys );
+            getStats ( node->right, depth + 1, maxDepth, leafCount, maxPolys, averagePolys );
+        }
+    }
+}
 
 void KDTree::buildFrom ( const vec3f* vertices, unsigned int vertexCount,
                          const Face* faces, unsigned int faceCount )
@@ -79,6 +98,15 @@ void KDTree::buildFrom ( const vec3f* vertices, unsigned int vertexCount,
     context.faces = faces;
     context.faceCount = faceCount;
     mRoot = internalBuildFrom ( &context, rootAABB, &mIndices[0], mIndices.size(), 0 );
+
+#if 1
+    unsigned int maxDepth = 0;
+    unsigned int leafCount = 0;
+    unsigned int maxPolys = 0;
+    float averagePolys = 0;
+    getStats ( mRoot, 0, &maxDepth, &leafCount, &maxPolys, &averagePolys );
+    printf("Max depth: %u, leaf count: %u, max polygons in a leaf: %u, average polys in a leaf: %f\n", maxDepth, leafCount, maxPolys, averagePolys);
+#endif
 }
 
 Node* KDTree::internalBuildFrom ( void* context_, const BoundingBox& bounds, int* indices, unsigned int indexCount, int axis )
@@ -90,8 +118,7 @@ Node* KDTree::internalBuildFrom ( void* context_, const BoundingBox& bounds, int
     node->splittingAxis = axis;
 
     // Stop conditions
-    if ( indexCount < 2 ||
-         bounds.volume() <= 0.000001f )
+    if ( indexCount < 2 )
     {
         node->indices = indices;
         node->indexCount = indexCount;
@@ -125,16 +152,27 @@ Node* KDTree::internalBuildFrom ( void* context_, const BoundingBox& bounds, int
         }
         ++minRight;
 
-        BoundingBox leftBox = bounds;
-        BoundingBox rightBox = bounds;
+        // If any of the children contains all the elements, let's just transform this into a leaf
+        if ( maxLeft == indexCount || minRight == 1 )
+        {
+            node->indices = indices;
+            node->indexCount = indexCount;
+            node->left = nullptr;
+            node->right = nullptr;
+        }
+        else
+        {
+            BoundingBox leftBox = bounds;
+            BoundingBox rightBox = bounds;
 
-        leftBox.max.v[axis] = median.centroid.v[axis];
-        rightBox.min.v[axis] = median.centroid.v[axis];
+            leftBox.max.v[axis] = median.centroid.v[axis];
+            rightBox.min.v[axis] = median.centroid.v[axis];
 
-        node->indices = nullptr;
-        node->indexCount = 0;
-        node->left = internalBuildFrom ( context_, leftBox, &indices[0], maxLeft, ( axis + 1 ) % 3 );
-        node->right = internalBuildFrom ( context_, rightBox, &indices[minRight], indexCount - minRight, ( axis + 1 ) % 3 );
+            node->indices = nullptr;
+            node->indexCount = 0;
+            node->left = internalBuildFrom ( context_, leftBox, &indices[0], maxLeft, ( axis + 1 ) % 3 );
+            node->right = internalBuildFrom ( context_, rightBox, &indices[minRight], indexCount - minRight, ( axis + 1 ) % 3 );
+        }
     }
 
     // Sort the indices based on the current axis

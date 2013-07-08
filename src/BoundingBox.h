@@ -44,8 +44,8 @@ struct BoundingBox
         return max.z() - min.z();
     }
 
-    float volume () const
+    double volume () const
     {
-        return width() * height() * depth();
+        return (double)width() * height() * depth();
     }
 };
