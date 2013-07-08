@@ -33,14 +33,13 @@ void KDTreeSpace::load ( const vec3f* vertices, unsigned int vertexCount, const 
     mVertexCount = vertexCount;
 
     AvgNormalCalculator::calc ( mVertices, mVertexCount, mFaces, mFaceCount, &mNormals, &mFaceNormals );
-    mBounds = BoundingBox::calculateFromVertices ( mVertices, mVertexCount );
-
     mKDTree.buildFrom ( mVertices, mVertexCount, mFaces, mFaceCount );
 }
 
 void KDTreeSpace::getBounds ( BoundingBox* bbox ) const
 {
-    *bbox = mBounds;
+    if ( mKDTree.getRoot() )
+        *bbox = mKDTree.getRoot()->aabb;
 }
 
 bool KDTreeSpace::intersect ( const Ray& ray, Collision* c ) const

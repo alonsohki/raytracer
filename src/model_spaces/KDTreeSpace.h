@@ -31,7 +31,6 @@ namespace ModelSpaces
         vec3f*          mFaceNormals;
         unsigned int    mFaceCount;
         unsigned int    mVertexCount;
-        BoundingBox     mBounds;
         KDTree::KDTree  mKDTree;
     };
 }

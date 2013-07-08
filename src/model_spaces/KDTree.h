@@ -14,20 +14,23 @@
 
 namespace ModelSpaces { namespace KDTree {
 
+    // Struct containing a face meta-data: centroid and aabb
+    struct FaceData
+    {
+        vec3f           centroid;
+        BoundingBox     aabb;
+    };
+
     struct Node
     {
-        int                 splittingAxis;
-        BoundingBox         aabb;
-        std::vector<int>    faces;
-        Node*               left;
-        Node*               right;
+        int                     splittingAxis;
+        BoundingBox             aabb;
+        int*                    indices;
+        unsigned int            indexCount;
+        Node*                   left;
+        Node*                   right;
 
-        bool isLeaf () const { return faces.size() == 0; }
-        Node ()
-        : left(nullptr)
-        , right(nullptr)
-        {
-        }
+        bool isLeaf () const { return indexCount != 0; }
     };
 
     class KDTree
@@ -42,12 +45,12 @@ namespace ModelSpaces { namespace KDTree {
         Node*       findLeaf            ( const vec3f& position, Node* startAt = nullptr );
 
     private:
-        Node*       internalBuildFrom   ( void* context,
-                                          int* indices, unsigned int indexCount,
-                                          int axis );
+        Node*       internalBuildFrom   ( void* context, const BoundingBox& bounds, int* indices, unsigned int indexCount, int axis );
         Node*       internalFindLeaf    ( const vec3f& position, Node* startAt );
 
     private:
-        Node*       mRoot;
+        Node*                   mRoot;
+        std::vector<FaceData>   mFaceData;
+        std::vector<int>        mIndices;
     };
 } }
