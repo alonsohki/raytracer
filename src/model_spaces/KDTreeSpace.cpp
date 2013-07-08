@@ -48,6 +48,7 @@ bool KDTreeSpace::intersect ( const Ray& ray_, Collision* c ) const
     bool intersected = false;
     const float epsilon = std::numeric_limits<float>::epsilon();
     Ray ray = ray_;
+    c->t = -length(ray.delta) - 1000.0f;
 
     // First find the intersection between the model bounds and the ray
     float tmin, tmax;
@@ -69,11 +70,11 @@ bool KDTreeSpace::intersect ( const Ray& ray_, Collision* c ) const
         // Test against all the node elements
         for ( unsigned int i = 0; i < node->indices.size(); ++i )
         {
-            const Face& face = mFaces[node->indices[i]];
+            const Face& face = mFaces[mFaceCount - i - 1];
             const vec3f& v0 = mVertices[face.v1];
             const vec3f& v1 = mVertices[face.v2];
             const vec3f& v2 = mVertices[face.v3];
-            const vec3f& n = mFaceNormals[node->indices[i]];
+            const vec3f& n = mFaceNormals[mFaceCount - i - 1];
 
             // Compute gradient, which tells us how steep of an angle
             // we are approaching the front side of a triangle.
@@ -96,14 +97,14 @@ bool KDTreeSpace::intersect ( const Ray& ray_, Collision* c ) const
                 continue;
 
 
-            // Have we already found a closer intersection?
-            if ( !(fabs(t - g * c->t) > 0.000001f) )
-                continue;
-
-
             // Here we know that the ray intersects the triangle _plane_.
             // Let's calculate the actual parametric value
             t /= g;
+
+            // Have we already found a closer intersection?
+            if ( t < c->t )
+                continue;
+
             assert(t >= 0.0f);
 
             // Computer the intersection 3D point

@@ -44,7 +44,8 @@ void BruteForce::getBounds ( BoundingBox* bbox ) const
 bool BruteForce::intersect ( const Ray& ray, Collision* c ) const
 {
     bool intersected = false;
-    c->t = std::numeric_limits<float>::infinity();
+    const float epsilon = std::numeric_limits<float>::epsilon();
+    c->t = -length(ray.delta) - 1000.0f;
 
     for ( unsigned int i = 0; i < mFaceCount; ++i )
     {
@@ -75,14 +76,14 @@ bool BruteForce::intersect ( const Ray& ray, Collision* c ) const
             continue;
 
 
-        // Have we already found a closer intersection?
-        if ( !(fabs(t - g * c->t) > 0.000001f) )
-            continue;
-
-
         // Here we know that the ray intersects the triangle _plane_.
         // Let's calculate the actual parametric value
         t /= g;
+
+        // Have we already found a closer intersection?
+        if ( t < c->t )
+            continue;
+
         assert(t >= 0.0f);
 
         // Computer the intersection 3D point
