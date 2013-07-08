@@ -128,6 +128,9 @@
     <None Include="output\result.tga">
       <Filter>Resources</Filter>
     </None>
+    <None Include="output\expected_result.tga">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\readme.txt">

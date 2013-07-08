@@ -46,7 +46,7 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
         #pragma omp parallel for
         for ( i = 0; i < (int)target->getWidth(); ++i )
         {
-            if ( i == 336 && j == 131 )
+            if ( i == 350 && j == 6 )
                 ++x;
 
             Collision col;

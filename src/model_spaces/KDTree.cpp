@@ -98,7 +98,7 @@ void KDTree::buildFrom ( const vec3f* vertices, unsigned int vertexCount,
     {
         mRoot->indices.push_back(i);
     }
-    internalBuildFrom ( &context, mRoot, 0 );
+    internalBuildFrom ( &context, mRoot, 0, 0 );
 
 #if 1
     unsigned int maxDepth = 0;
@@ -110,14 +110,14 @@ void KDTree::buildFrom ( const vec3f* vertices, unsigned int vertexCount,
 #endif
 }
 
-void KDTree::internalBuildFrom ( void* context_, Node* node, int axis )
+void KDTree::internalBuildFrom ( void* context_, Node* node, int axis, unsigned int depth )
 {
     BuildTreeContext* context = (BuildTreeContext *)context_;
 
     node->aabb = BoundingBox::calculateFromFaces(context->vertices, context->faces, &node->indices[0], node->indices.size());
     node->splittingAxis = axis;
 
-    if ( node->indices.size() < 2 )
+    if ( node->indices.size() < 2 || node->aabb.volume() < 0.0000001 || depth > 0 )
     {
         node->left = nullptr;
         node->right = nullptr;
@@ -125,7 +125,6 @@ void KDTree::internalBuildFrom ( void* context_, Node* node, int axis )
     }
 
     // Split by median
-    { node->left = node->right = nullptr; return; }
     std::sort(node->indices.begin(), node->indices.end(), [axis, this] ( int a, int b )
     {
         return mFaceData[a].centroid.v[axis] < mFaceData[b].centroid.v[axis];
@@ -161,8 +160,8 @@ void KDTree::internalBuildFrom ( void* context_, Node* node, int axis )
     }
 
     // Subdivide the child nodes
-    internalBuildFrom ( context_, node->left, ( axis + 1 ) % 3 );
-    internalBuildFrom ( context_, node->right, ( axis + 1 ) % 3 );
+    internalBuildFrom ( context_, node->left, ( axis + 1 ) % 3, depth + 1 );
+    internalBuildFrom ( context_, node->right, ( axis + 1 ) % 3, depth + 1 );
 }
 
 

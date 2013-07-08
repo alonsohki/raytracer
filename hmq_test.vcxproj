@@ -52,6 +52,7 @@
     <Text Include="src\readme.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="output\expected_result.tga" />
     <None Include="output\result.tga" />
     <None Include="src\sample_render.tga" />
   </ItemGroup>

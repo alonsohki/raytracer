@@ -62,7 +62,7 @@ bool KDTreeSpace::intersect ( const Ray& ray_, Collision* c ) const
     do
     {
         // Find the nearest leaf node for the intersection point
-        vec3f point = ray.origin + ray.delta*(tmin + epsilon);
+        vec3f point = ray.origin + ray.delta*(tmax - epsilon);
         KDTree::Node* node = mKDTree.findLeaf(point);
         if ( node == nullptr )
             return false;
@@ -70,11 +70,11 @@ bool KDTreeSpace::intersect ( const Ray& ray_, Collision* c ) const
         // Test against all the node elements
         for ( unsigned int i = 0; i < node->indices.size(); ++i )
         {
-            const Face& face = mFaces[mFaceCount - i - 1];
+            const Face& face = mFaces[node->indices[i]];
             const vec3f& v0 = mVertices[face.v1];
             const vec3f& v1 = mVertices[face.v2];
             const vec3f& v2 = mVertices[face.v3];
-            const vec3f& n = mFaceNormals[mFaceCount - i - 1];
+            const vec3f& n = mFaceNormals[node->indices[i]];
 
             // Compute gradient, which tells us how steep of an angle
             // we are approaching the front side of a triangle.

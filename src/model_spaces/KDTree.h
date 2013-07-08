@@ -44,7 +44,7 @@ namespace ModelSpaces { namespace KDTree {
         Node*       findLeaf            ( const vec3f& position, Node* startAt = nullptr ) const;
 
     private:
-        void        internalBuildFrom   ( void* context, Node* node, int axis );
+        void        internalBuildFrom   ( void* context, Node* node, int axis, unsigned int depth );
         Node*       internalFindLeaf    ( const vec3f& position, Node* startAt ) const;
 
     private:
