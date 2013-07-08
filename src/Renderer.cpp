@@ -15,8 +15,8 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
 
     // Calculate the X and Y steps
     model->getBounds ( &bounds );
-    float width = bounds.max.x() - bounds.min.x();
-    float height = bounds.max.y() - bounds.min.y();
+    float width = bounds.width();
+    float height = bounds.height();
     float left;
     float top;
     float stepX;
@@ -46,7 +46,7 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
         #pragma omp parallel for
         for ( i = 0; i < (int)target->getWidth(); ++i )
         {
-            if ( i == 350 && j == 6 )
+            if ( i == 331 && j == 4 )
                 ++x;
 
             Collision col;

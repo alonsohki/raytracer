@@ -24,8 +24,12 @@ namespace ModelSpaces { namespace KDTree {
     struct Node
     {
         int                     splittingAxis;
+        float                   splitPos;
         BoundingBox             aabb;
         std::vector<int>        indices;
+#ifdef _DEBUG
+        Node*                   parent;
+#endif
         Node*                   left;
         Node*                   right;
 

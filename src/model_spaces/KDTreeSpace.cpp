@@ -42,12 +42,11 @@ void KDTreeSpace::getBounds ( BoundingBox* bbox ) const
         *bbox = mKDTree.getRoot()->aabb;
 }
 
-bool KDTreeSpace::intersect ( const Ray& ray_, Collision* c ) const
+bool KDTreeSpace::intersect ( const Ray& ray, Collision* c ) const
 {
     // Traverse de KD-Tree
     bool intersected = false;
     const float epsilon = std::numeric_limits<float>::epsilon();
-    Ray ray = ray_;
     c->t = -length(ray.delta) - 1000.0f;
 
     // First find the intersection between the model bounds and the ray
@@ -59,14 +58,12 @@ bool KDTreeSpace::intersect ( const Ray& ray_, Collision* c ) const
     if (!bounds.intersect(ray, &tmin, &tmax))
         return false;
 
-    do
-    {
-        // Find the nearest leaf node for the intersection point
-        vec3f point = ray.origin + ray.delta*(tmax - epsilon);
-        KDTree::Node* node = mKDTree.findLeaf(point);
-        if ( node == nullptr )
-            return false;
+    // Find the nearest leaf node for the intersection point
+    vec3f point = ray.origin + ray.delta*tmin + epsilon;
+    KDTree::Node* node = mKDTree.findLeaf(point);
 
+    while ( !intersected && node != nullptr )
+    {
         // Test against all the node elements
         for ( unsigned int i = 0; i < node->indices.size(); ++i )
         {
@@ -184,12 +181,12 @@ bool KDTreeSpace::intersect ( const Ray& ray_, Collision* c ) const
         if (!intersected)
         {
             // Retry the intersection with a new ray
-            ray.origin = ray.origin + ray.delta*(tmax + epsilon);
-            if (!bounds.intersect(ray, &tmin, &tmax))
+            if (!node->aabb.intersect(ray, &tmin, &tmax))
                 return false;
+            point = ray.origin + ray.delta*tmax + epsilon;
+            node = mKDTree.findLeaf(point);
         }
     }
-    while ( !intersected );
 
     return intersected;
 }
