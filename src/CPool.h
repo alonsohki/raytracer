@@ -106,7 +106,7 @@ public:
 
     inline void     Free            ( T* p )
     {
-#ifdef _OPENPM
+#ifdef _OPENMP
         omp_set_lock(&m_lock);
 #endif
 
