@@ -120,6 +120,9 @@
     <ClInclude Include="src\model_spaces\KDTree.h">
       <Filter>Source Files\model_spaces</Filter>
     </ClInclude>
+    <ClInclude Include="src\CPool.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\sample_render.tga">

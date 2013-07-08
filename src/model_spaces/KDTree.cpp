@@ -6,7 +6,7 @@
 //
 
 #include <algorithm>
-#include <cassert>
+#include "../Config.h"
 #include "KDTree.h"
 
 using namespace ModelSpaces::KDTree;
@@ -46,7 +46,7 @@ namespace
 
 KDTree::KDTree ()
 : mRoot(nullptr)
-, mNodePool(10240)
+, mNodePool(KDTREE_POOL_CHUNK_SIZE)
 {
 }
 
@@ -100,7 +100,7 @@ void KDTree::internalBuildFrom ( void* context_, Node* node, int axis, unsigned 
 
     node->splittingAxis = axis;
 
-    if ( node->indices.size() < 2 || node->aabb.volume() < 0.0000001 || depth > 24 )
+    if ( node->indices.size() < 2 || node->aabb.volume() < MIN_KDTREE_NODE_VOLUME || depth > MAX_KDTREE_DEPTH )
     {
         node->left = nullptr;
         node->right = nullptr;

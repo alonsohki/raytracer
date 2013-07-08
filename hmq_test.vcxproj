@@ -29,6 +29,7 @@
     <ClInclude Include="src\BoundingBox.h" />
     <ClInclude Include="src\Collision.h" />
     <ClInclude Include="src\Config.h" />
+    <ClInclude Include="src\CPool.h" />
     <ClInclude Include="src\Face.h" />
     <ClInclude Include="src\MathUtil.h" />
     <ClInclude Include="src\model_spaces\AvgNormalCalculator.h" />
@@ -98,7 +99,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <OpenMPSupport>true</OpenMPSupport>
+      <OpenMPSupport>false</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
