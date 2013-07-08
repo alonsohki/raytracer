@@ -5,6 +5,7 @@
 // AUTHORS:     Alberto Alonso <rydencillo@gmail.com>
 //
 
+#include "Config.h"
 #include "MathUtil.h"
 #include "tga_saver.h"
 #include "Renderer.h"
@@ -56,8 +57,10 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
             {
                 vec3f normal = col.v0.normal * col.point.alpha + col.v1.normal * col.point.beta + col.v2.normal * col.point.gamma;
                 float diffuse = saturate(-dot(normal, lightDir));
-                unsigned int color = (unsigned int)(0xFF * diffuse) & 0xFF;
-                color |= color << 8 | color << 16 | color << 24;
+                unsigned int color = (unsigned int)( ((LIGHT_COLOR >> 16) & 0xFF) * diffuse ) << 16 |
+                                     (unsigned int)( ((LIGHT_COLOR >> 8) & 0xFF) * diffuse ) << 8 |
+                                     (unsigned int)( ((LIGHT_COLOR >> 0) & 0xFF) * diffuse ) << 0 |
+                                     0xFF000000;
                 target->setPixel(i, j, color);
             }
         }
