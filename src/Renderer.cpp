@@ -39,24 +39,22 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
 
 
     // Scan the model
-    int x = 0;
     int i, j;
+    const vec3f rayDelta ( 0.0f, 0.0f, 10.0f );
+    const vec3f lightDir = normalize(rayDelta);
+
     #pragma omp parallel for
     for ( j = 0; j < (int)target->getHeight(); ++j )
     {
         for ( i = 0; i < (int)target->getWidth(); ++i )
         {
-            if ( i == 350 && j == 6 )
-                ++x;
-
             Collision col;
             Ray ray;
-            ray.delta = vec3f(0.0f, 0.0f, 10.0f);
+            ray.delta = rayDelta;
             ray.origin = vec3f(left + stepX * i, top - stepY * j, -1.0f);
             if ( model->intersect(ray, &col) == true )
             {
                 vec3f normal = col.v0.normal * col.point.alpha + col.v1.normal * col.point.beta + col.v2.normal * col.point.gamma;
-                vec3f lightDir = normalize(ray.delta);
                 float diffuse = saturate(-dot(normal, lightDir));
                 unsigned int color = (unsigned int)(0xFF * diffuse) & 0xFF;
                 color |= color << 8 | color << 16 | color << 24;
