@@ -85,7 +85,9 @@ public:
 
     inline T*       Alloc           ()
     {
+#ifdef _OPENMP
         omp_set_lock(&m_lock);
+#endif
 
         if ( ! m_pFreeNodes )
         {
@@ -95,14 +97,18 @@ public:
         T* pRet = new ( m_pFreeNodes->p ) T ();
         m_pFreeNodes = m_pFreeNodes->pNextFree;
 
+#ifdef _OPENMP
         omp_unset_lock(&m_lock);
+#endif
 
         return pRet;
     }
 
     inline void     Free            ( T* p )
     {
+#ifdef _OPENPM
         omp_set_lock(&m_lock);
+#endif
 
         for ( SPoolNode* pCurrentBucket = m_pBuckets;
               pCurrentBucket != 0;
@@ -125,7 +131,9 @@ public:
             }
         }
 
+#ifdef _OPENMP
         omp_unset_lock(&m_lock);
+#endif
     }
 
 private:
