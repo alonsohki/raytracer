@@ -34,6 +34,8 @@ void KDTreeSpace::load ( const vec3f* vertices, unsigned int vertexCount, const 
 
     AvgNormalCalculator::calc ( mVertices, mVertexCount, mFaces, mFaceCount, &mNormals, &mFaceNormals );
     mBounds = BoundingBox::calculateFromVertices ( mVertices, mVertexCount );
+
+    mKDTree.buildFrom ( mVertices, mVertexCount, mFaces, mFaceCount );
 }
 
 void KDTreeSpace::getBounds ( BoundingBox* bbox ) const

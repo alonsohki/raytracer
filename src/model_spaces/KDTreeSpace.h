@@ -9,6 +9,7 @@
 
 #include "../Collision.h"
 #include "IModelSpace.h"
+#include "KDTree.h"
 
 namespace ModelSpaces
 {
@@ -31,5 +32,6 @@ namespace ModelSpaces
         unsigned int    mFaceCount;
         unsigned int    mVertexCount;
         BoundingBox     mBounds;
+        KDTree::KDTree  mKDTree;
     };
 }
