@@ -47,7 +47,7 @@ bool KDTreeSpace::intersect ( const Ray& ray, Collision* c ) const
     // Traverse de KD-Tree
     bool intersected = false;
     const float epsilon = std::numeric_limits<float>::epsilon();
-    c->t = -length(ray.delta) - 1000.0f;
+    c->t = length(ray.delta) + 1000.0f;
 
     // First find the intersection between the model bounds and the ray
     float tmin, tmax;
@@ -59,7 +59,7 @@ bool KDTreeSpace::intersect ( const Ray& ray, Collision* c ) const
         return false;
 
     // Find the nearest leaf node for the intersection point
-    vec3f point = ray.origin + ray.delta*(tmax - 0.000001f);
+    vec3f point = ray.origin + ray.delta*tmin;
     KDTree::Node* node = mKDTree.findLeaf(point, mKDTree.getRoot());
 
     while ( !intersected && node != nullptr )
@@ -99,7 +99,7 @@ bool KDTreeSpace::intersect ( const Ray& ray, Collision* c ) const
             t /= g;
 
             // Have we already found a closer intersection?
-            if ( t < c->t )
+            if ( (t + 0.000001f) > c->t )
                 continue;
 
             assert(t >= 0.0f);
@@ -183,7 +183,7 @@ bool KDTreeSpace::intersect ( const Ray& ray, Collision* c ) const
             // Retry the intersection with a new ray
             if (!node->aabb.intersect(ray, &tmin, &tmax))
                 return false;
-            point = ray.origin + ray.delta*(tmin - 0.000001f);
+            point = ray.origin + ray.delta*(tmax + 0.00001f);
             node = mKDTree.findLeaf(point);
         }
     }

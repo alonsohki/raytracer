@@ -48,7 +48,7 @@ void AvgNormalCalculator::calc ( const vec3f* vertices, unsigned int vertexCount
         // Ignore empty polygons
         try
         {
-            vec3f normal = normalize(cross(dir2, dir1));
+            vec3f normal = normalize(cross(dir1, dir2));
 
             (*faceNormals)[i] = normal;
 

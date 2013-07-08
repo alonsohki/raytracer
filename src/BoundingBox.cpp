@@ -18,32 +18,37 @@ bool BoundingBox::intersect ( const BoundingBox& other ) const
 
 bool BoundingBox::intersect ( const Ray& ray, float* tmin, float* tmax ) const
 {
-    vec3f dir = ray.delta;
-    vec3f invdir = vec3f(1.0f/dir.x(), 1.0f/dir.y(), 1.0f/dir.z());
+    vec3f T_1, T_2; // vectors to hold the T-values for every direction
+    double t_near = -DBL_MAX; // maximums defined in float.h
+    double t_far = DBL_MAX;
 
-    float t1 = (min.x() - ray.origin.x())*invdir.x();
-    float t2 = (max.x() - ray.origin.x())*invdir.x();
-    float t3 = (min.y() - ray.origin.y())*invdir.y();
-    float t4 = (max.y() - ray.origin.y())*invdir.y();
-    float t5 = (min.z() - ray.origin.z())*invdir.z();
-    float t6 = (max.z() - ray.origin.z())*invdir.z();
+    for (int i = 0; i < 3; i++){ //we test slabs in every direction
+        if (ray.delta.v[i] == 0){ // ray parallel to planes in this direction
+            if ((ray.origin.v[i] < min.v[i]) || (ray.origin.v[i] > max.v[i])) {
+                return false; // parallel AND outside box : no intersection possible
+            }
+        } else { // ray not parallel to planes in this direction
+            T_1.v[i] = (min.v[i] - ray.origin.v[i]) / ray.delta.v[i];
+            T_2.v[i] = (max.v[i] - ray.origin.v[i]) / ray.delta.v[i];
 
-    *tmin = ::max(::max(::min(t1, t2), ::min(t3, t4)), ::min(t5, t6));
-    *tmax = ::min(::min(::max(t1, t2), ::max(t3, t4)), ::max(t5, t6));
-
-    // if tmax < 0, ray (line) is intersecting AABB, but whole AABB is behing us
-    if (*tmax < 0)
-    {
-        return false;
+            if(T_1.v[i] > T_2.v[i]){ // we want T_1 to hold values for intersection with near plane
+                auto temp = T_1;
+                T_1 = T_2;
+                T_2 = temp;
+            }
+            if (T_1.v[i] > t_near){
+                t_near = T_1.v[i];
+            }
+            if (T_2.v[i] < t_far){
+                t_far = T_2.v[i];
+            }
+            if( (t_near > t_far) || (t_far < 0) ){
+                return false;
+            }
+        }
     }
-
-    // if tmin > tmax, ray doesn't intersect AABB
-    if (*tmin > *tmax)
-    {
-        return false;
-    }
-
-    return true;
+    *tmin = (float)t_near; *tmax = (float)t_far; // put return values in place
+    return true; // if we made it here, there was an intersection - YAY
 }
 
 BoundingBox BoundingBox::calculateFromFaces ( const vec3f* vertices, const Face* faces, int* indices, unsigned int indexCount )

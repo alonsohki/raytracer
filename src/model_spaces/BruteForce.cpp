@@ -45,7 +45,7 @@ bool BruteForce::intersect ( const Ray& ray, Collision* c ) const
 {
     bool intersected = false;
     const float epsilon = std::numeric_limits<float>::epsilon();
-    c->t = -length(ray.delta) - 1000.0f;
+    c->t = length(ray.delta) + 1000.0f;
 
     for ( unsigned int i = 0; i < mFaceCount; ++i )
     {
@@ -81,7 +81,7 @@ bool BruteForce::intersect ( const Ray& ray, Collision* c ) const
         t /= g;
 
         // Have we already found a closer intersection?
-        if ( t < c->t )
+        if ( t > c->t )
             continue;
 
         assert(t >= 0.0f);

@@ -131,9 +131,9 @@ void KDTree::internalBuildFrom ( void* context_, Node* node, int axis, unsigned 
     for ( auto& index : node->indices )
     {
         auto& cur = mFaceData[index];
-        if ( cur.aabb.min.v[axis] <= splitPos )
+        if ( cur.aabb.min.v[axis] <= (splitPos+0.0001f) )
             node->left->indices.push_back(index);
-        if ( cur.aabb.max.v[axis] >= splitPos )
+        if ( cur.aabb.max.v[axis] >= (splitPos-0.0001f) )
             node->right->indices.push_back(index);
     }
 
@@ -162,7 +162,7 @@ void KDTree::internalBuildFrom ( void* context_, Node* node, int axis, unsigned 
 #pragma omp section
         {
             node->right->aabb = node->aabb;
-            node->right->aabb.min.v[axis] = splitPos + std::numeric_limits<float>::epsilon();
+            node->right->aabb.min.v[axis] = splitPos;
             internalBuildFrom ( context_, node->right, ( axis + 1 ) % 3, depth + 1 );
         }
     }
@@ -175,7 +175,7 @@ void KDTree::internalBuildFrom ( void* context_, Node* node, int axis, unsigned 
             internalBuildFrom ( context_, node->left, ( axis + 1 ) % 3, depth + 1 );
 
             node->right->aabb = node->aabb;
-            node->right->aabb.min.v[axis] = splitPos + std::numeric_limits<float>::epsilon();
+            node->right->aabb.min.v[axis] = splitPos;
             internalBuildFrom ( context_, node->right, ( axis + 1 ) % 3, depth + 1 );
         }
     }

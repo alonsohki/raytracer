@@ -40,8 +40,9 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
 
 
     // Scan the model
+    int x = 0;
     int i, j;
-    const vec3f rayDelta ( 0.0f, 0.0f, 10.0f );
+    const vec3f rayDelta ( 0.0f, 0.0f, -10.0f );
     const vec3f lightDir = normalize(rayDelta);
 
     #pragma omp parallel for
@@ -49,10 +50,13 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
     {
         for ( i = 0; i < (int)target->getWidth(); ++i )
         {
+            if ( i == 389 && j == 18 )
+                ++x;
+
             Collision col;
             Ray ray;
             ray.delta = rayDelta;
-            ray.origin = vec3f(left + stepX * i, top - stepY * j, -1.0f);
+            ray.origin = vec3f(left + stepX * i, top - stepY * j, 1.0f);
             if ( model->intersect(ray, &col) == true )
             {
                 vec3f normal = col.v0.normal * col.point.alpha + col.v1.normal * col.point.beta + col.v2.normal * col.point.gamma;
