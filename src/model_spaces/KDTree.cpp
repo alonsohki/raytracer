@@ -168,15 +168,22 @@ void KDTree::internalBuildFrom ( void* context_, Node* node, int axis, unsigned 
         return;
     }
 
-    // Calculate the bounding boxes of the child nodes
-    node->left->aabb = node->aabb;
-    node->right->aabb = node->aabb;
-    node->left->aabb.max.v[axis] = splitPos;
-    node->right->aabb.min.v[axis] = splitPos + std::numeric_limits<float>::epsilon();
-
     // Subdivide the child nodes
-    internalBuildFrom ( context_, node->left, ( axis + 1 ) % 3, depth + 1 );
-    internalBuildFrom ( context_, node->right, ( axis + 1 ) % 3, depth + 1 );
+#pragma omp parallel sections
+    {
+#pragma omp section
+        {
+            node->left->aabb = node->aabb;
+            node->left->aabb.max.v[axis] = splitPos;
+            internalBuildFrom ( context_, node->left, ( axis + 1 ) % 3, depth + 1 );
+        }
+#pragma omp section
+        {
+            node->right->aabb = node->aabb;
+            node->right->aabb.min.v[axis] = splitPos + std::numeric_limits<float>::epsilon();
+            internalBuildFrom ( context_, node->right, ( axis + 1 ) % 3, depth + 1 );
+        }
+    }
 }
 
 
@@ -197,7 +204,7 @@ Node* KDTree::internalFindLeaf ( const vec3f& position, Node* node ) const
 {
     while ( !node->isLeaf() )
     {
-        if ( node->splitPos > position.v[node->splittingAxis] )
+        if ( node->splitPos >= position.v[node->splittingAxis] )
             node = node->left;
         else
             node = node->right;
