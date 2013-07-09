@@ -100,7 +100,8 @@ void KDTree::internalBuildFrom ( void* context_, Node* node, int axis, unsigned 
 
     node->splittingAxis = axis;
 
-    if ( node->indices.size() < 2 || node->aabb.volume() < MIN_KDTREE_NODE_VOLUME || depth > MAX_KDTREE_DEPTH )
+    // Stop if we got only one polygon in this node, the node volume is too small or we reached the max allowed depth
+    if ( node->indices.size() < 2 || node->aabb.volume() < MIN_KDTREE_NODE_VOLUME || depth >= MAX_KDTREE_DEPTH )
     {
         node->left = nullptr;
         node->right = nullptr;
@@ -149,6 +150,8 @@ void KDTree::internalBuildFrom ( void* context_, Node* node, int axis, unsigned 
     }
 
     // Subdivide the child nodes
+    // Do not always distribute it by threads or the thread creation overhead will
+    // make it expensive. Just once out of four.
     if ( (depth % 4) == 0 )
     {
 #pragma omp parallel sections

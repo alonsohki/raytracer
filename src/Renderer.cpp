@@ -23,6 +23,8 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
     float stepX;
     float stepY;
 
+    // We want to fit the model in the screen, so select the biggest dimension (width or height)
+    // and decide the step based on that. Then calculate the top-left corner to start the scan.
     if ( height > width )
     {
         top = bounds.max.y();
@@ -42,6 +44,7 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
     // Scan the model
     int i, j;
     const vec3f rayDelta RAY_DELTA;
+    // Use a directional light that has the same direction as the camera
     const vec3f lightDir = normalize(rayDelta);
 
     #pragma omp parallel for
@@ -55,6 +58,7 @@ void Renderer::renderModel ( PixBuffer* target, IModelSpace* model ) const
             ray.origin = vec3f(left + stepX * i, top - stepY * j, 0.0f) + vec3f RAY_ORIGIN;
             if ( model->intersect(ray, &col) == true )
             {
+                // Use a Lambertian lighting model
                 vec3f normal = col.v0.normal * col.point.alpha + col.v1.normal * col.point.beta + col.v2.normal * col.point.gamma;
                 float diffuse = saturate(-dot(normal, lightDir));
                 unsigned int color = (unsigned int)( ((LIGHT_COLOR >> 16) & 0xFF) * diffuse ) << 16 |

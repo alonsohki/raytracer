@@ -13,7 +13,7 @@
 // speedup the rendering speed, but they penalize the KDtree construction times
 // KDTREE_POOL_CHUNK_SIZE defines how many nodes will be allocated everytime that
 // a block of nodes is allocated.
-#define USE_KDTREE
+//#define USE_KDTREE
 #define MAX_KDTREE_DEPTH 32
 #define MIN_KDTREE_NODE_VOLUME 0.00000005
 #define KDTREE_POOL_CHUNK_SIZE 4096
