@@ -35,13 +35,13 @@ struct Vector3
 		v[2] = z;
 	}
 
-	const float& x () const { return v[0]; }
-	const float& y () const { return v[1]; }
-	const float& z () const { return v[2]; }
+	const T& x () const { return v[0]; }
+	const T& y () const { return v[1]; }
+	const T& z () const { return v[2]; }
 
-	float& x () { return v[0]; }
-	float& y () { return v[1]; }
-	float& z () { return v[2]; }
+	T& x () { return v[0]; }
+	T& y () { return v[1]; }
+	T& z () { return v[2]; }
 
 	operator std::string ()
 	{
