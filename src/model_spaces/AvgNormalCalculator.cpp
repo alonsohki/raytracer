@@ -6,6 +6,7 @@
 //
 
 #include "AvgNormalCalculator.h"
+#include <cstring>
 #include "../Vector.h"
 
 using namespace ModelSpaces;

@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <cmath>
 #include <sstream>
 #include <string>
 #include "Utils.h"

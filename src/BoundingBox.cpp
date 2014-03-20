@@ -6,6 +6,8 @@
 //
 
 #include "BoundingBox.h"
+#include <float.h>
+#include <limits>
 #include "MathUtil.h"
 #include <stdarg.h>
 

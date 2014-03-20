@@ -12,7 +12,7 @@
 #include "MathUtil.h"
 #include "model_spaces/BruteForce.h"
 #include "model_spaces/KDTreeSpace.h"
-#include "Pixbuffer.h"
+#include "PixBuffer.h"
 #include "ply_reader.h"
 #include "Profiler.h"
 #include "Renderer.h"
@@ -85,6 +85,9 @@ int main(int argc, const char* argv[], const char* envp[])
 #undef PROFILE_START
 #undef PROFILE_END
 
+#ifdef WIN32
 	system("pause");
+#endif
+
 	return EXIT_SUCCESS;
 }

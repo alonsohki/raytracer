@@ -9,6 +9,7 @@
 #include <cassert>
 #include "../Face.h"
 #include "KDTreeSpace.h"
+#include <limits>
 #include "../Vector.h"
 
 using namespace ModelSpaces;

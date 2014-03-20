@@ -4,3 +4,13 @@ Debug/
 *.sdf
 *.opensdf
 *.user
+*.o
+autom4te.cache
+config.log
+*~
+Makefile
+src/raytracer
+src/.deps
+config.h
+config.status
+

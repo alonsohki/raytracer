@@ -9,6 +9,7 @@
 #include "BruteForce.h"
 #include <cassert>
 #include "../Face.h"
+#include <limits>
 #include "../Vector.h"
 
 using namespace ModelSpaces;
