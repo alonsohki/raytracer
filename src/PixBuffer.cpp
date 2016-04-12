@@ -35,7 +35,7 @@ void PixBuffer::create ( unsigned int width, unsigned int height, unsigned int d
     mWidth = width;
     mHeight = height;
     mDepth = depth;
-	mBuffer = new unsigned char [ mWidth * mHeight * mDepth ];
+	mBuffer = new unsigned char [ mWidth * mHeight * (mDepth / 8) ];
 }
 
 void PixBuffer::clear ( unsigned int clearColor )
