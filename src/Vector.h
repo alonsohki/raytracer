@@ -168,6 +168,12 @@ T length ( const Vector3<T>& v )
 }
 
 template < typename T >
+T sqrLength(const Vector3<T>& v)
+{
+	return dot(v, v);
+}
+
+template < typename T >
 Vector3<T> normalize ( const Vector3<T>& v )
 {
 	T len = length(v);

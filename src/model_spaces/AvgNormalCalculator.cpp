@@ -11,10 +11,23 @@
 
 using namespace ModelSpaces;
 
-struct AvgMeta
+namespace
 {
-    unsigned int faceCount;
-};
+	inline vec3f averageNormal(vec3f** normals, int idx, int count)
+	{
+		vec3f vec = ((*normals)[idx] / (float)count);
+		if (sqrLength(vec) > 0.0001f)
+		{
+			return normalize(vec);
+		}
+		return vec;
+	}
+
+	struct AvgMeta
+	{
+		unsigned int faceCount;
+	};
+}
 
 void AvgNormalCalculator::calc ( const vec3f* vertices, unsigned int vertexCount,
                                  const Face* faces, unsigned int faceCount,
@@ -49,26 +62,36 @@ void AvgNormalCalculator::calc ( const vec3f* vertices, unsigned int vertexCount
         // Ignore empty polygons
         try
         {
-            vec3f normal = normalize(cross(dir1, dir2));
+			vec3f normal = normalize(cross(dir1, dir2));
+			(*faceNormals)[i] = normal;
 
-            (*faceNormals)[i] = normal;
-
-            // Accumulate this normal onto all the polygon vertices
-            meta[face.v1].faceCount++;
-            meta[face.v2].faceCount++;
-            meta[face.v3].faceCount++;
-            (*normals)[face.v1] += normal;
-            (*normals)[face.v2] += normal;
-            (*normals)[face.v3] += normal;
-        }
+			// Accumulate this normal onto all the polygon vertices
+			//if (meta[face.v1].faceCount == 0 || dot(normal, averageNormal(normals, face.v1, meta[face.v1].faceCount)) >= 0)
+			{
+				meta[face.v1].faceCount++;
+				(*normals)[face.v1] += normal;
+			}
+			//if (meta[face.v2].faceCount == 0 || dot(normal, averageNormal(normals, face.v2, meta[face.v2].faceCount)) >= 0)
+			{
+				meta[face.v2].faceCount++;
+				(*normals)[face.v2] += normal;
+			}
+			//if (meta[face.v3].faceCount == 0 || dot(normal, averageNormal(normals, face.v3, meta[face.v3].faceCount)) >= 0)
+			{
+				meta[face.v3].faceCount++;
+				(*normals)[face.v3] += normal;
+			}
+		}
         catch ( ... ) {}
     }
 
     // Calculate the averages
     for ( unsigned int i = 0; i < vertexCount; ++i )
     {
-        if ( meta[i].faceCount > 0 )
-            (*normals)[i] /= (float)(meta[i].faceCount);
+		if (meta[i].faceCount > 0)
+		{
+			(*normals)[i] = averageNormal(normals, i, meta[i].faceCount);
+		}
     }
 
     // Delete the temporary metadata
